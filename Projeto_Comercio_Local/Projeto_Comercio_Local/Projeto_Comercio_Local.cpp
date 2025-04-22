@@ -40,45 +40,48 @@ void produtosDisponiveis()
 int main()
 {
 	int opcao;
-	cout << "|=============| ";
-	cout << "Nome da Loja a Decidir";
-	cout << " |==============|\n";
-	cout << endl;
-	cout << "[1] Produtos Disponiveis\n";
-	cout << "[2] Comprar Produto\n";
-	cout << "[3] Checkout\n";
-	cout << "[4] Adicionar Produto\n";
-	cout << "[5] Eliminar Produto\n";
-	cout << "[6] Sair\n";
-	cout << "Escolha uma opcao: ";
-	cin >> opcao;
-	switch (opcao) {
-	case 1:
-		// Mostrar produtos disponíveis
-		return void(produtosDisponiveis());
-		break;
-	case 2:
-		// Comprar produto
-		break;
-	case 3:
-		// Checkout
-		break;
-	case 4:
-		// Adicionar produto
-		break;
-	case 5:
-		// Eliminar produto
-		break;
-	case 6:
-		cout << "A desligar o progama...\n";
-		return 0;
-		break;
-	default:
-		// Opcao invalida
-		cout << "Opcao invalida. Tente novamente.\n";
-		return main();
-		break;
-	}
+	do {
+
+		cout << "|=============| ";
+		cout << "Nome da Loja a Decidir";
+		cout << " |==============|\n";
+		cout << endl;
+		cout << "[1] Produtos Disponiveis\n";
+		cout << "[2] Comprar Produto\n";
+		cout << "[3] Checkout\n";
+		cout << "[4] Adicionar Produto\n";
+		cout << "[5] Eliminar Produto\n";
+		cout << "[6] Sair\n";
+		cout << "Escolha uma opcao: ";
+		cin >> opcao;
+		switch (opcao)
+		{
+		case 1:
+			// Mostrar produtos disponíveis
+			produtosDisponiveis();
+			break;
+		case 2:
+			// Comprar produto
+			break;
+		case 3:
+			// Checkout
+			break;
+		case 4:
+			// Adicionar produto
+			break;
+		case 5:
+			// Eliminar produto
+			break;
+		case 6:
+			cout << "A desligar o progama...\n";
+			break;
+		default:
+			// Opcao invalida
+			cout << "Opcao invalida. Tente novamente.\n";
+			break;
+		}
+	} while (opcao != 6); // repete o menu até sair do programa
+	
 
 
 	
