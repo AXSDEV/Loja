@@ -11,7 +11,7 @@ void produtosDisponiveis()
 {
 
 	int totalProdutos = 1;
-	int colunas = 3; // ID, Nome, Preco 
+	int colunas = 4; // ID, Nome, Preco 
 
 	string** produtos = new string * [totalProdutos];
 	for (int i = 0; i < totalProdutos; i++)
@@ -20,12 +20,13 @@ void produtosDisponiveis()
 	}
 	produtos[0][0] = "1";
 	produtos[0][1] = "Pao";
-	produtos[0][2] = "0.45";
+	produtos[0][2] = "10";
+	produtos[0][3] = "0.45";
 
 
 	//print matrix
 	cout << endl << "Produtos Disponiveis " << endl;
-	cout << "ID\tNome\tPreco" << endl;
+	cout << "ID\tNome\tQuantidade\tPreco" << endl;
 	for (int i = 0; i < totalProdutos; i++)
 	{
 		for (int j = 0; j < colunas; j++)
