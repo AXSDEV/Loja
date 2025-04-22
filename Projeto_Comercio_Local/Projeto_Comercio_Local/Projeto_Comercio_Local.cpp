@@ -1,9 +1,40 @@
 // Projeto_Comercio_Local.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <ctime>
 using namespace std;
+
+
+void produtosDisponiveis()
+{
+
+	int totalProdutos = 1;
+	int colunas = 3; // ID, Nome, Preco 
+
+	string** produtos = new string * [totalProdutos];
+	for (int i = 0; i < totalProdutos; i++)
+	{
+		produtos[i] = new string[colunas];
+	}
+	produtos[0][0] = "1";
+	produtos[0][1] = "Pao";
+	produtos[0][2] = "0.45";
+
+
+	//print matrix
+	cout << endl << "Produtos Disponiveis " << endl;
+	cout << "ID\tNome\tPreco" << endl;
+	for (int i = 0; i < totalProdutos; i++)
+	{
+		for (int j = 0; j < colunas; j++)
+		{
+			cout << produtos[i][j] << "\t";
+		}
+		cout << endl;
+	}
+}
 
 
 int main()
@@ -18,11 +49,13 @@ int main()
 	cout << "[3] Checkout\n";
 	cout << "[4] Adicionar Produto\n";
 	cout << "[5] Eliminar Produto\n";
+	cout << "[6] Sair\n";
 	cout << "Escolha uma opcao: ";
 	cin >> opcao;
 	switch (opcao) {
 	case 1:
-		// Listar produtos disponíveis
+		// Mostrar produtos disponÃ­veis
+		return void(produtosDisponiveis());
 		break;
 	case 2:
 		// Comprar produto
@@ -36,9 +69,19 @@ int main()
 	case 5:
 		// Eliminar produto
 		break;
+	case 6:
+		cout << "A desligar o progama...\n";
+		return 0;
+		break;
 	default:
+		// Opcao invalida
 		cout << "Opcao invalida. Tente novamente.\n";
+		return main();
+		break;
 	}
+
+
+	
 }
 
 
@@ -69,7 +112,7 @@ int main()
 
 
 
-// Isto poderá ser a talão mas depois vemos melhor,
+// Isto poderÃ¡ ser a talÃ£o mas depois vemos melhor,
 // 
 // 
 //cout << "|======================================|";
