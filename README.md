@@ -14,6 +14,7 @@ School project.
 
 [ ] Adicionar uma opção no menu para modificar o preço de um produto existente ✔
 
+
 ✅ To-Do List // English
 
 [ ] Check if the product already exists before adding a new one ✔
