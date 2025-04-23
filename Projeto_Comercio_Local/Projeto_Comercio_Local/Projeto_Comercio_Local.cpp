@@ -8,11 +8,12 @@ using namespace std;
 
 int totalProdutos = 3;
 int colunas = 4; // ID, Nome, Quantidade, Preco 
-string** produto = new string * [totalProdutos];
+int maximoProdutos = 100;
+string** produto = new string* [maximoProdutos];
 
 void inicializarProdutos()
 {
-	for (int i = 0; i < totalProdutos; i++)
+	for (int i = 0; i < maximoProdutos; i++)
 	{
 		produto[i] = new string[colunas];
 	}
@@ -31,7 +32,7 @@ void inicializarProdutos()
 	//produto 3
 	produto[2][0] = "3";
 	produto[2][1] = "Queijo";
-	produto[2][2] = "";
+	produto[2][2] = "20";
 	produto[2][3] = "1.50";
 }
 
@@ -53,61 +54,55 @@ void produtosDisponiveis()
 //adicionar produto
 void adicionarProduto()
 {
-	produto[totalProdutos][0] = to_string(totalProdutos + 1); //to_string converte o inteiro para string e depois torna o id automatico fazendo +1
-	cout << "Nome: ";
-	cin >> produto[totalProdutos][1];
-	cout << "Quantidade: ";
-	cin >> produto[totalProdutos][2];
-	cout << "Preco: ";
-	cin >> produto[totalProdutos][3];
-	totalProdutos++;
+	int nProdAdicionar;
+	cout << "Quantos produtos deseja adicionar?";
+	cin >> nProdAdicionar;
+
+	if (nProdAdicionar + totalProdutos >= maximoProdutos)
+	{
+		cout << "Limite máximo de produtos atingido.";
+		return;
+	}
+	for (int i = 0; i < nProdAdicionar; i++)
+	{
+		produto[totalProdutos][0] = to_string(totalProdutos + 1); //to_string converte o inteiro para string e depois torna o id automatico fazendo +1
+		cout << "Nome: ";
+		cin >> produto[totalProdutos][1];
+		cout << "Quantidade: ";
+		cin >> produto[totalProdutos][2];
+		cout << "Preco: ";
+		cin >> produto[totalProdutos][3];
+		totalProdutos++;
+	}
 }
 
 //eliminar produto
-void eliminarProduto()	
+void eliminarProduto()
 {
-string id;
-cout<< "\nDigite o ID do produto a eliminar: ";
-cin>> id;
-bool encontrado = false;
-for (int i = 0; i < totalProdutos; i++)
+	string id;
+	cout << "\nDigite o ID do produto a eliminar: ";
+	cin >> id;
+	bool encontrado = false;
+	for (int i = 0; i < totalProdutos; i++)
 	{
-		if(produto[i][0]==id)
+		if (produto[i][0] == id)
 		{
-		produto[i][0] = "";
-		produto[i][1] = "";
-		produto[i][2] = "";
-		produto[i][3] = "";
-		cout<<" Produto eliminado. \n";
-		encontrado=true;
-		break;
+			produto[i][0] = "";
+			produto[i][1] = "";
+			produto[i][2] = "";
+			produto[i][3] = "";
+			cout << " Produto eliminado. \n";
+			encontrado = true;
+			break;
 		}
 	}
-if(!encontrado)
-{
-cout<<"Produto não encontrado.\n";
-}
-cout<<"\nAtualização de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
-for (int i = 0; i < totalProdutos; i++)
+	if (!encontrado)
 	{
-		if(produto[i][0]!="")
-		{
-		cout<< "ID\tNome\tQnt\tPreco" << endl;
-		for (int i = 0; i < totalProdutos; i++)
-		{
-		for (int j = 0; j < 4; j++)
-		{
-			cout << produto[i][j] << "\t";
-		}
-		cout << endl;
-		}
-		}
+		cout << "Produto não encontrado.\n";
 	}
+	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
+	produtosDisponiveis();
 }
-
-
-
-
 
 int main()
 {
@@ -199,4 +194,3 @@ int main()
 //cout << "| Valor Entregue                       |";
 //cout << "| Troco                                |";
 //cout << "|======================================|";
-
