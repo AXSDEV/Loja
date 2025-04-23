@@ -97,7 +97,7 @@ void eliminarProduto()
 	for (int n = 0; n < nProdEliminar; n++)
 	{
 		string id;
-		cout << "\nDigite o ID do produto a eliminar: ";
+		cout << "\nIntroduza o ID do produto a eliminar: ";
 		cin >> id;
 		for (int i = 0; i < totalProdutos; i++)
 		{
