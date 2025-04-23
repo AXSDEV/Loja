@@ -145,6 +145,7 @@ int main()
 			break;
 		case 5:
 			// Eliminar produto
+			eliminarProduto();
 			break;
 		case 6:
 			cout << "A desligar o progama...\n";
