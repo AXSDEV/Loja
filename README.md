@@ -31,3 +31,7 @@ School project.
 🛠 Extra Tasks
 
 [ ] Add a menu option to modify the price of an existing product ✔
+
+
+AXS - I'm working on ...
+Fabiana - I'm working on ...
