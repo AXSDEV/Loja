@@ -63,6 +63,52 @@ void adicionarProduto()
 	totalProdutos++;
 }
 
+//eliminar produto
+void eliminarProduto()	
+{
+string id;
+cout<< "\nDigite o ID do produto a eliminar: ";
+cin>> id;
+bool encontrado = false;
+for (int i = 0; i < totalProdutos; i++)
+	{
+		if(produto[i][0]==id)
+		{
+		produto[i][0] = "";
+		produto[i][1] = "";
+		produto[i][2] = "";
+		produto[i][3] = "";
+		cout<<" Produto eliminado. \n";
+		encontrado=true;
+		break;
+		}
+	}
+if(!encontrado)
+{
+cout<<"Produto não encontrado.\n";
+}
+cout<<"\nAtualização de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
+for (int i = 0; i < totalProdutos; i++)
+	{
+		if(produto[i][0]!="")
+		{
+		cout<< "ID\tNome\tQnt\tPreco" << endl;
+		for (int i = 0; i < totalProdutos; i++)
+		{
+		for (int j = 0; j < 4; j++)
+		{
+			cout << produto[i][j] << "\t";
+		}
+		cout << endl;
+		}
+		}
+	}
+}
+
+
+
+
+
 int main()
 {
 	inicializarProdutos();
