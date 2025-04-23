@@ -43,11 +43,15 @@ void produtosDisponiveis()
 	cout << "ID\tNome\tQnt\tPreco" << endl;
 	for (int i = 0; i < totalProdutos; i++)
 	{
-		for (int j = 0; j < colunas; j++)
+		if (produto[i][0] != "")
 		{
-			cout << produto[i][j] << "\t";
+			for (int j = 0; j < colunas; j++)
+			{
+				cout << produto[i][j] << "\t";
+			}
+			cout << endl;
 		}
-		cout << endl;
+		
 	}
 }
 
@@ -55,7 +59,7 @@ void produtosDisponiveis()
 void adicionarProduto()
 {
 	int nProdAdicionar;
-	cout << "Quantos produtos deseja adicionar?";
+	cout << "Quantos produtos deseja adicionar? ";
 	cin >> nProdAdicionar;
 
 	if (nProdAdicionar + totalProdutos >= maximoProdutos)
@@ -79,21 +83,38 @@ void adicionarProduto()
 //eliminar produto
 void eliminarProduto()
 {
-	string id;
-	cout << "\nDigite o ID do produto a eliminar: ";
-	cin >> id;
-	bool encontrado = false;
-	for (int i = 0; i < totalProdutos; i++)
+	int nProdEliminar;
+	cout << "Quantos produtos deseja eliminar? ";
+	cin >> nProdEliminar;
+
+	if (nProdEliminar > totalProdutos)
 	{
-		if (produto[i][0] == id)
+		cout << "Nao existem " << nProdEliminar << " produtos na loja.";
+		return eliminarProduto();
+	}
+
+	bool encontrado = false;
+	for (int n = 0; n < nProdEliminar; n++)
+	{
+		string id;
+		cout << "\nDigite o ID do produto a eliminar: ";
+		cin >> id;
+		for (int i = 0; i < totalProdutos; i++)
 		{
-			produto[i][0] = "";
-			produto[i][1] = "";
-			produto[i][2] = "";
-			produto[i][3] = "";
-			cout << " Produto eliminado. \n";
-			encontrado = true;
-			break;
+			if (produto[i][0] == id)
+			{
+				for (int j = i; j < totalProdutos - 1; j++)
+				{
+					for (int k = 0; k < colunas; k++)
+					{
+						produto[j][k] = produto[j + 1][k];
+					}
+				}
+				totalProdutos--;
+				cout << endl << "Produto eliminado. \n";
+				encontrado = true;
+				break;
+			}
 		}
 	}
 	if (!encontrado)
