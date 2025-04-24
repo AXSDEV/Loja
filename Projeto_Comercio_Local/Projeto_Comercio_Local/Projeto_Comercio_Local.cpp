@@ -210,7 +210,7 @@ void eliminarProduto()
 }
 
 
-////Falta Terminar...
+////Falta Terminar... Comentei mas podes descomentar e continuar, foi só porque tive a fazer mais cenas e queria correr o codigo.
 //vector<vector<string>> carrinho;
 //void adicionarAoCarrinho()
 //{
