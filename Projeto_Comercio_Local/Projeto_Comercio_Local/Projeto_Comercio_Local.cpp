@@ -125,6 +125,89 @@ void eliminarProduto()
 	produtosDisponiveis();
 }
 
+//Falta Terminar...
+void adicionarAoCarrinho() 
+{
+    
+int quantidade;
+    
+    produtosDisponiveis();
+    
+    bool encontrado = false;
+    char continuar = 's';
+
+    while (continuar == 's' || continuar == 'S') 
+	{
+		cout << "Digite o ID do produto: ";
+	   	cin >> id;
+		cout << "Digite a quantidade: ";
+	        cin >> quantidade;
+	    
+	    	for (int i = 0; i < totalProdutos; i++) 
+		{
+	        if (produto[i][0] == id) 
+			{
+		            int estoqueAtual = stoi(produto[i][2]); // Converte uma string em um número inteiro. Biblioteca <string>
+		            if (quantidade <= 0) 
+			    {
+		                cout << "Quantidade invalida!\n";
+		                return;
+		            }
+		            if (quantidade > estoqueAtual) 
+			    {
+		                cout << "Quantidade indisponivel!\n";
+		                return;
+		            }
+		double preco = stod(produto[i][3]);
+		double subtotal = quantidade * preco;
+	
+		vector<vector<string>> carrinho;		
+		vector<string> itemCarrinho; 
+		vector<string> itemCarrinho = 
+			{
+	                    produtos[i][0],
+	                    produtos[i][1],
+	                    to_string(quantidade),
+	                    produtos[i][3],
+	                    to_string(subtotal)
+	                };
+	
+		carrinho.push_back(itemCarrinho);
+		cout << "Produto adicionado ao carrinho!\n";
+		encontrado = true;
+		break;
+	            }
+	        }
+	
+	        if (!encontrado) 
+		{
+	            cout << "Produto não encontrado.\n";
+	        }
+	
+	        cout << "Deseja adicionar outro produto? (s/n): ";
+	        cin >> continuar;
+	}
+
+   
+    cout << "\n==== CARRINHO DE COMPRAS ====\n";
+    double total = 0.0;
+    for (int i = 0; i < carrinho.size(); i++) 
+    {
+        cout << "Produto: " << carrinho[i][1]
+             << " | Quantidade: " << carrinho[i][2]
+             << " | Preço: € " << carrinho[i][3]
+             << " | Subtotal: €" << carrinho[i][4] << endl;
+        total = total + stod(carrinho[i][4]);
+    }
+		
+	carrinho.push_back(itemCarrinho);
+	cout << "Produto adicionado ao carrinho!\n";
+	encontrado = true;
+	break;
+
+}
+
+
 int main()
 {
 	inicializarProdutos();
