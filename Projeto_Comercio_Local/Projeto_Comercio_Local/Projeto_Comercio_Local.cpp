@@ -6,6 +6,7 @@
 #include <ctime> // para adicionar horas e datas (talao)
 #include <sstream> // para poder usar setprecision em strings || deixa-me usar manipulador de strings
 #include <vector>
+
 using namespace std;
 
 int totalProdutos = 3;
@@ -38,7 +39,7 @@ void inicializarProdutos()
 	produto[2][3] = "1.50";
 }
 
-//print matrix
+//Imprime os produtos default
 void produtosDisponiveis()
 {
 	cout << endl << "Produtos Disponiveis " << endl;
@@ -56,19 +57,20 @@ void produtosDisponiveis()
 		
 	}
 }
-
+// Adiciona Produtos
 void adicionarProduto()
 {
 	int nProdAdicionar;
 
 	cout << "Quantos produtos deseja adicionar? ";
-	while (!(cin >> nProdAdicionar) || nProdAdicionar <= 0) 
+	// Repete até o utilizador inserir um numero acima de 0
+	while (!(cin >> nProdAdicionar) || nProdAdicionar < 0) 
 	/*
 	  O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
 	  Temos de ter em conta que a variavel nProdAdicionar foi criada em int ou seja tem de ser um numero sem este while ao colocar texto o programa iria crashar.
 	*/ 
 	{
-		cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+		cout << "Atencao, apenas pode inserir números e tem de ser maior que 0.\n";
 		cout << "Quantos produtos deseja adicionar? ";
 		cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
 		cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
@@ -81,47 +83,81 @@ void adicionarProduto()
 	for (int i = 0; i < nProdAdicionar; i++)
 	{
 		int qnt;
-		double precoT;
+		double precoT; // preco Temporario
+		string nome;
+		bool produtoExiste = false;
 
-		produto[totalProdutos][0] = to_string(totalProdutos + 1); //to_string converte o inteiro para string e depois torna o id automatico fazendo +1
-		
 		cout << "Nome: ";
-		cin >> produto[totalProdutos][1];
+		cin >> nome;
 
-		cout << "Quantidade: ";
-		while (!(cin >> qnt) || qnt <= 0)
+		for (int j = 0; j < totalProdutos; j++)
 		{
-			cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+			// Verificar se o produto ja existe, como existe apenas adiciona quantidade
+			if (produto[j][1] == nome)
+			{
+				cout << "Produto ja existe. Que quantidade deseja adicionar?\n";
+				// Repete até o utilizador inserir um numero acima de 0
+				while (!(cin >> qnt) || qnt < 0)
+				{
+					cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+					cout << "Quantidade: ";
+					cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+					cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+				}
+
+				int qntAtual = stoi(produto[j][2]); // Quantidade do produto em stock
+				produto[j][2] = to_string(qntAtual + qnt);
+				produtoExiste = true;
+				cout << "O estoque foi atualizado.";
+				break;
+			}
+		}
+
+		// Senao existir entao criar um novo
+		if (!produtoExiste)
+		{
+			produto[totalProdutos][0] = to_string(totalProdutos + 1); //to_string converte o inteiro para string e depois torna o id automatico fazendo +1
+			produto[totalProdutos][1] = nome;
+
 			cout << "Quantidade: ";
-			cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
-			cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
-		}
-		produto[totalProdutos][2] = to_string(qnt);
-		
-		cout << "Preco: ";
-		while (!(cin >> precoT) || precoT <= 0)
-		{
-			cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
-			cout << "Preco: ";
-			cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
-			cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
-		}
-		
-		ostringstream conversao; // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
-		conversao << fixed << setprecision(2) << precoT; // vai formatar o preco para ter 2 casas decimais
-		produto[totalProdutos][3] = conversao.str();
+			// Repete até o utilizador inserir um numero acima de 0
+			while (!(cin >> qnt) || qnt < 0)
+			{
+				cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+				cout << "Quantidade: ";
+				cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+				cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+			}
+			produto[totalProdutos][2] = to_string(qnt);
 
-		totalProdutos++;
+			cout << "Preco: ";
+			// Repete até o utilizador inserir um numero acima de 0
+			while (!(cin >> precoT) || precoT < 0)
+			{
+				cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+				cout << "Preco: ";
+				cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+				cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+			}
+
+			ostringstream conversao; // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
+			conversao << fixed << setprecision(2) << precoT; // vai formatar o preco para ter 2 casas decimais
+			produto[totalProdutos][3] = conversao.str();
+
+			totalProdutos++;
+		}
 	}
+	// Se adicionar apenas 1
 	if (nProdAdicionar == 1)
 	{
 		cout << endl <<  "Produto adicionado.\n";
 	}
+	// Se adicionar mais que 1
 	if (nProdAdicionar > 1)
 	{
 		cout << endl << "Produtos adicionados.\n";
 	}
-
+	// Imprime autalizacao de estoque
 	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos adicionados.
 	produtosDisponiveis();
 }
@@ -140,11 +176,13 @@ void eliminarProduto()
 	}
 
 	bool encontrado = false;
+
 	for (int n = 0; n < nProdEliminar; n++)
 	{
 		string id;
 		cout << "\nDigite o ID do produto a eliminar: ";
 		cin >> id;
+
 		for (int i = 0; i < totalProdutos; i++)
 		{
 			if (produto[i][0] == id)
@@ -153,10 +191,10 @@ void eliminarProduto()
 				{
 					for (int k = 0; k < colunas; k++)
 					{
-						produto[j][k] = produto[j + 1][k];
+						produto[j][k] = produto[j + 1][k]; // vai colocar a linha vazia em ultimo
 					}
 				}
-				totalProdutos--;
+				totalProdutos--; // Elimina a ultima linha que se encontra vazia
 				cout << endl << "Produto eliminado. \n";
 				encontrado = true;
 				break;
@@ -165,14 +203,14 @@ void eliminarProduto()
 	}
 	if (!encontrado)
 	{
-		cout << "Produto não encontrado.\n";
+		cout << "Produto nao encontrado.\n";
 	}
 	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
 	produtosDisponiveis();
 }
 
 
-////Falta Terminar... Apenas comentei para poder correr o programa sem erros podes tirar a qualquer momento.
+////Falta Terminar...
 //vector<vector<string>> carrinho;
 //void adicionarAoCarrinho()
 //{
@@ -232,7 +270,7 @@ int main()
 
 	int opcao;
 	do {
-		cout << "|=============| ";
+		cout << endl << "|=============| ";
 		cout << "Nome da Loja a Decidir";
 		cout << " |==============|\n";
 		cout << endl;
@@ -254,7 +292,7 @@ int main()
 			// Comprar produto
 			break;
 		case 3:
-			// Checkout
+			// Carrinho
 			break;
 		case 4:
 			// Adicionar produto
@@ -265,11 +303,11 @@ int main()
 			eliminarProduto();
 			break;
 		case 6:
-			cout << "A desligar o progama...\n";
+			cout << endl << "A desligar o progama...\n";
 			break;
 		default:
 			// Opcao invalida
-			cout << "Opcao invalida. Tente novamente.\n";
+			cout << endl << "Opcao invalida. Tente novamente.\n";
 			break;
 		}
 	} while (opcao != 6); // repete o menu até sair do programa
