@@ -22,19 +22,19 @@ void inicializarProdutos()
 	}
 	//produto 1
 	produto[0][0] = "1";
-	produto[0][1] = "Pao";
+	produto[0][1] = "Lapis";
 	produto[0][2] = "20";
-	produto[0][3] = "0.45";
+	produto[0][3] = "0.20";
 	
 	//produto 2
 	produto[1][0] = "2";
-	produto[1][1] = "Leite";
+	produto[1][1] = "Caneta";
 	produto[1][2] = "20";
-	produto[1][3] = "0.80";
+	produto[1][3] = "0.40";
 	
 	//produto 3
 	produto[2][0] = "3";
-	produto[2][1] = "Queijo";
+	produto[2][1] = "Caderno";
 	produto[2][2] = "20";
 	produto[2][3] = "1.50";
 }
@@ -43,18 +43,32 @@ void inicializarProdutos()
 void produtosDisponiveis()
 {
 	cout << endl << "Produtos Disponiveis " << endl;
-	cout << "ID\tNome\tQnt\tPreco" << endl;
+	//Larguras fixas
+	int wID = 5;
+	int wNome = 20;
+	int wQnt = 10;
+	int wPreco = 10;
+
+	//Cabeçalho alinhado 
+	cout << left << setw(wID) << "ID"
+		<< setw(wNome) << "Nome"
+		<< setw(wQnt) << "Qnt"
+		<< setw(wPreco) << "Preco" << endl;
+
+	//Lista de produtos
 	for (int i = 0; i < totalProdutos; i++)
 	{
 		if (produto[i][0] != "")
 		{
-			for (int j = 0; j < colunas; j++)
-			{
-				cout << produto[i][j] << "\t";
-			}
-			cout << endl;
+			
+				cout << left << setw(wID) << produto[i][0] 
+					<< setw(wNome) << produto[i][1]
+					<< setw(wQnt) << produto[i][2]
+					<< setw(wPreco) << produto[i][3];
+			
+			
 		}
-		
+		cout << endl;
 	}
 }
 // Adiciona Produtos
@@ -88,7 +102,8 @@ void adicionarProduto()
 		bool produtoExiste = false;
 
 		cout << "Nome: ";
-		cin >> nome;
+		cin.ignore(); // Preciso disto para ele nao ler apenas ate ao espaço em caso de produtos com "2 nomes" como por exemplo "Arroz Doce". com cin >> nome; iria apenas guardar Arroz. E doce iria ficar no buffer e entrar no proximo cin.
+		getline(cin, nome); // Com isto a string nome vai ser "Arroz Doce", vai obrigar a ler até o enter.
 
 		for (int j = 0; j < totalProdutos; j++)
 		{
@@ -210,7 +225,7 @@ void eliminarProduto()
 }
 
 
-////Falta Terminar... Comentei mas podes descomentar e continuar, foi só porque tive a fazer mais cenas e queria correr o codigo.
+////Falta Terminar...
 //vector<vector<string>> carrinho;
 //void adicionarAoCarrinho()
 //{
@@ -269,9 +284,11 @@ int main()
 	inicializarProdutos();
 
 	int opcao;
+
 	do {
+		system("CLS");
 		cout << endl << "|=============| ";
-		cout << "Nome da Loja a Decidir";
+		cout << "Papelaria Note & Book";
 		cout << " |==============|\n";
 		cout << endl;
 		cout << "[1] Produtos Disponiveis\n";
@@ -310,7 +327,14 @@ int main()
 			cout << endl << "Opcao invalida. Tente novamente.\n";
 			break;
 		}
+		if (opcao != 6)
+		{
+			cout << endl << "Pressione enter para voltar ao menu.";
+			cin.ignore();
+			cin.get();
+		}
 	} while (opcao != 6); // repete o menu até sair do programa
+	
 }
 
 
