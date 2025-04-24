@@ -126,6 +126,7 @@ void eliminarProduto()
 }
 
 //Falta Terminar...
+vector<vector<string>> carrinho;		
 void adicionarAoCarrinho() 
 {
     
@@ -161,8 +162,6 @@ int quantidade;
 		double preco = stod(produto[i][3]);
 		double subtotal = quantidade * preco;
 	
-		vector<vector<string>> carrinho;		
-		vector<string> itemCarrinho; 
 		vector<string> itemCarrinho = 
 			{
 	                    produtos[i][0],
