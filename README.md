@@ -2,8 +2,9 @@
 Project for a small-business in C++.
 School project.
 
+---
 
-✅ To-Do List // Portuguese
+✅ Lista de Tarefas // Português
 
 [ ] Verificar se o produto já existe antes de adicionar um novo ✔
 
@@ -11,10 +12,12 @@ School project.
 
 [ ] Evitar criar entradas duplicadas para o mesmo produto ✔
 
-🛠 Extra Tasks
+
+🛠 Tarefas Adicionais
 
 [ ] Adicionar uma opção no menu para modificar o preço de um produto existente ✔
 
+---
 
 ✅ To-Do List // English
 
@@ -24,11 +27,13 @@ School project.
 
 [ ] Avoid creating duplicate entries for the same product ✔
 
+
 🛠 Extra Tasks
 
 [ ] Add a menu option to modify the price of an existing product ✔
 
+---
 
 AXS - I'm working on ...
 
-Fabiana - I'm working on ...
+Fabiana - I'm working on ...
