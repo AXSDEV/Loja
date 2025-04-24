@@ -1,9 +1,10 @@
 // Projeto_Comercio_Local.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <ctime>
+#include <iomanip> // para usar manipuladores de entrada e saida para controlar a formatação dos dados
+#include <string> // para usar strings
+#include <ctime> // para adicionar horas e datas (talao)
+#include <sstream> // para poder usar setprecision em strings || deixa-me usar manipulador de strings
 using namespace std;
 
 int totalProdutos = 3;
@@ -55,29 +56,73 @@ void produtosDisponiveis()
 	}
 }
 
-//adicionar produto
 void adicionarProduto()
 {
 	int nProdAdicionar;
-	cout << "Quantos produtos deseja adicionar? ";
-	cin >> nProdAdicionar;
 
+	cout << "Quantos produtos deseja adicionar? ";
+	while (!(cin >> nProdAdicionar) || nProdAdicionar <= 0) 
+	/*
+	  O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
+	  Temos de ter em conta que a variavel nProdAdicionar foi criada em int ou seja tem de ser um numero sem este while ao colocar texto o programa iria crashar.
+	*/ 
+	{
+		cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+		cout << "Quantos produtos deseja adicionar? ";
+		cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+		cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+	}
 	if (nProdAdicionar + totalProdutos >= maximoProdutos)
 	{
-		cout << "Limite máximo de produtos atingido.";
+		cout << "Limite maximo de produtos atingido.\n";
 		return;
 	}
 	for (int i = 0; i < nProdAdicionar; i++)
 	{
+		int qnt;
+		double precoT;
+
 		produto[totalProdutos][0] = to_string(totalProdutos + 1); //to_string converte o inteiro para string e depois torna o id automatico fazendo +1
+		
 		cout << "Nome: ";
 		cin >> produto[totalProdutos][1];
+
 		cout << "Quantidade: ";
-		cin >> produto[totalProdutos][2];
+		while (!(cin >> qnt) || qnt <= 0)
+		{
+			cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+			cout << "Quantidade: ";
+			cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+			cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+		}
+		produto[totalProdutos][2] = to_string(qnt);
+		
 		cout << "Preco: ";
-		cin >> produto[totalProdutos][3];
+		while (!(cin >> precoT) || precoT <= 0)
+		{
+			cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+			cout << "Preco: ";
+			cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+			cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+		}
+		
+		ostringstream conversao; // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
+		conversao << fixed << setprecision(2) << precoT; // vai formatar o preco para ter 2 casas decimais
+		produto[totalProdutos][3] = conversao.str();
+
 		totalProdutos++;
 	}
+	if (nProdAdicionar == 1)
+	{
+		cout << endl <<  "Produto adicionado.\n";
+	}
+	if (nProdAdicionar > 1)
+	{
+		cout << endl << "Produtos adicionados.\n";
+	}
+
+	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos adicionados.
+	produtosDisponiveis();
 }
 
 //eliminar produto
@@ -97,7 +142,7 @@ void eliminarProduto()
 	for (int n = 0; n < nProdEliminar; n++)
 	{
 		string id;
-		cout << "\nIntroduza o ID do produto a eliminar: ";
+		cout << "\nDigite o ID do produto a eliminar: ";
 		cin >> id;
 		for (int i = 0; i < totalProdutos; i++)
 		{
@@ -124,88 +169,6 @@ void eliminarProduto()
 	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
 	produtosDisponiveis();
 }
-
-//Falta Terminar...
-vector<vector<string>> carrinho;		
-void adicionarAoCarrinho() 
-{
-    
-int quantidade;
-    
-    produtosDisponiveis();
-    
-    bool encontrado = false;
-    char continuar = 's';
-
-    while (continuar == 's' || continuar == 'S') 
-	{
-		cout << "Digite o ID do produto: ";
-	   	cin >> id;
-		cout << "Digite a quantidade: ";
-	        cin >> quantidade;
-	    
-	    	for (int i = 0; i < totalProdutos; i++) 
-		{
-	        if (produto[i][0] == id) 
-			{
-		            int estoqueAtual = stoi(produto[i][2]); // Converte uma string em um número inteiro. Biblioteca <string>
-		            if (quantidade <= 0) 
-			    {
-		                cout << "Quantidade invalida!\n";
-		                return;
-		            }
-		            if (quantidade > estoqueAtual) 
-			    {
-		                cout << "Quantidade indisponivel!\n";
-		                return;
-		            }
-		double preco = stod(produto[i][3]);
-		double subtotal = quantidade * preco;
-	
-		vector<string> itemCarrinho = 
-			{
-	                    produtos[i][0],
-	                    produtos[i][1],
-	                    to_string(quantidade),
-	                    produtos[i][3],
-	                    to_string(subtotal)
-	                };
-	
-		carrinho.push_back(itemCarrinho);
-		cout << "Produto adicionado ao carrinho!\n";
-		encontrado = true;
-		break;
-	            }
-	        }
-	
-	        if (!encontrado) 
-		{
-	            cout << "Produto não encontrado.\n";
-	        }
-	
-	        cout << "Deseja adicionar outro produto? (s/n): ";
-	        cin >> continuar;
-	}
-
-   
-    cout << "\n==== CARRINHO DE COMPRAS ====\n";
-    double total = 0.0;
-    for (int i = 0; i < carrinho.size(); i++) 
-    {
-        cout << "Produto: " << carrinho[i][1]
-             << " | Quantidade: " << carrinho[i][2]
-             << " | Preço: € " << carrinho[i][3]
-             << " | Subtotal: €" << carrinho[i][4] << endl;
-        total = total + stod(carrinho[i][4]);
-    }
-		
-	carrinho.push_back(itemCarrinho);
-	cout << "Produto adicionado ao carrinho!\n";
-	encontrado = true;
-	break;
-
-}
-
 
 int main()
 {
@@ -297,3 +260,36 @@ int main()
 //cout << "| Valor Entregue                       |";
 //cout << "| Troco                                |";
 //cout << "|======================================|";
+
+
+//Usado inicialmente mas foi exilado xD
+// adicionar produto
+//void adicionarProduto()
+//{
+//	int nProdAdicionar;
+//	int preco;
+//	int qnt;
+//	cout << "Quantos produtos deseja adicionar? ";
+//	cin >> nProdAdicionar;
+//
+//	if (nProdAdicionar + totalProdutos >= maximoProdutos)
+//	{
+//		cout << "Limite máximo de produtos atingido.";
+//		return;
+//	}
+//	for (int i = 0; i < nProdAdicionar; i++)
+//	{
+//		produto[totalProdutos][0] = to_string(totalProdutos + 1); //to_string converte o inteiro para string e depois torna o id automatico fazendo +1
+//		cout << "Nome: ";
+//		cin >> produto[totalProdutos][1];
+//		cout << "Quantidade: ";
+//		cin >> qnt;
+////cin >> produto[totalProdutos][2];
+//		produto[totalProdutos][2] = to_string(qnt);
+//		cout << "Preco: ";
+//		cin >> preco;
+//		produto[totalProdutos][3] = to_string(preco);
+////cin >> produto[totalProdutos][3];
+//		totalProdutos++;
+//	}
+//}
