@@ -11,8 +11,6 @@ School project.
 
 [ ] Evitar criar entradas duplicadas para o mesmo produto ✔
 
-[ ] Permitir apenas números na Quantidade e Preço ao adicionar um produto ✔
-
 🛠 Extra Tasks
 
 [ ] Adicionar uma opção no menu para modificar o preço de um produto existente ✔
@@ -25,8 +23,6 @@ School project.
 [ ] If the product exists but has 0 stock, update only the quantity ✔
 
 [ ] Avoid creating duplicate entries for the same product ✔
-
-[ ] Allow only numbers in Quantity and Price when adding a product ✔
 
 🛠 Extra Tasks
 
