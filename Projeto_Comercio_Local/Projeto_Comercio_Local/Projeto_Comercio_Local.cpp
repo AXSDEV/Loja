@@ -5,6 +5,7 @@
 #include <string> // para usar strings
 #include <ctime> // para adicionar horas e datas (talao)
 #include <sstream> // para poder usar setprecision em strings || deixa-me usar manipulador de strings
+#include <vector>
 using namespace std;
 
 int totalProdutos = 3;
@@ -169,6 +170,61 @@ void eliminarProduto()
 	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
 	produtosDisponiveis();
 }
+
+
+////Falta Terminar... Apenas comentei para poder correr o programa sem erros podes tirar a qualquer momento.
+//vector<vector<string>> carrinho;
+//void adicionarAoCarrinho()
+//{
+//
+//double preco = stod(produto[i][3]);
+//double subtotal = quantidade * preco;
+//
+//vector<vector<string>> carrinho;
+//vector<string> itemCarrinho;
+//vector<string> itemCarrinho =
+//{
+//			produtos[i][0],
+//			produtos[i][1],
+//			to_string(quantidade),
+//			produtos[i][3],
+//			to_string(subtotal)
+//};
+//
+//carrinho.push_back(itemCarrinho);
+//cout << "Produto adicionado ao carrinho!\n";
+//encontrado = true;
+//break;
+//				}
+//			}
+//
+//			if (!encontrado)
+//			{
+//				cout << "Produto não encontrado.\n";
+//			}
+//
+//			cout << "Deseja adicionar outro produto? (s/n): ";
+//			cin >> continuar;
+//	}
+//
+//
+//	cout << "\n==== CARRINHO DE COMPRAS ====\n";
+//	double total = 0.0;
+//	for (int i = 0; i < carrinho.size(); i++)
+//	{
+//		cout << "Produto: " << carrinho[i][1]
+//			<< " | Quantidade: " << carrinho[i][2]
+//			<< " | Preço: € " << carrinho[i][3]
+//			<< " | Subtotal: €" << carrinho[i][4] << endl;
+//		total = total + stod(carrinho[i][4]);
+//	}
+//
+//	carrinho.push_back(itemCarrinho);
+//	cout << "Produto adicionado ao carrinho!\n";
+//	encontrado = true;
+//	break;
+//
+// }
 
 int main()
 {
