@@ -224,60 +224,68 @@ void eliminarProduto()
 	produtosDisponiveis();
 }
 
+//adicionar ao carrinho de compra
+void efetuarVenda() {
+    vector<vector<string>> carrinho;
 
-////Falta Terminar...
-//vector<vector<string>> carrinho;
-//void adicionarAoCarrinho()
-//{
-//
-//double preco = stod(produto[i][3]);
-//double subtotal = quantidade * preco;
-//
-//vector<vector<string>> carrinho;
-//vector<string> itemCarrinho;
-//vector<string> itemCarrinho =
-//{
-//			produtos[i][0],
-//			produtos[i][1],
-//			to_string(quantidade),
-//			produtos[i][3],
-//			to_string(subtotal)
-//};
-//
-//carrinho.push_back(itemCarrinho);
-//cout << "Produto adicionado ao carrinho!\n";
-//encontrado = true;
-//break;
-//				}
-//			}
-//
-//			if (!encontrado)
-//			{
-//				cout << "Produto não encontrado.\n";
-//			}
-//
-//			cout << "Deseja adicionar outro produto? (s/n): ";
-//			cin >> continuar;
-//	}
-//
-//
-//	cout << "\n==== CARRINHO DE COMPRAS ====\n";
-//	double total = 0.0;
-//	for (int i = 0; i < carrinho.size(); i++)
-//	{
-//		cout << "Produto: " << carrinho[i][1]
-//			<< " | Quantidade: " << carrinho[i][2]
-//			<< " | Preço: € " << carrinho[i][3]
-//			<< " | Subtotal: €" << carrinho[i][4] << endl;
-//		total = total + stod(carrinho[i][4]);
-//	}
-//
-//	carrinho.push_back(itemCarrinho);
-//	cout << "Produto adicionado ao carrinho!\n";
-//	encontrado = true;
-//	break;
-//
-// }
+    cout << "\n=== NOVA VENDA ===\n";
+
+    do {
+        listarProdutos();
+
+        string id;
+        cout << "ID do produto ou VOLTAR para voltar ao Menu Anterior: ";
+        cin >> id;
+
+        if (id == "VOLTAR") break;
+
+        bool encontrado = false;
+        for (int i = 0; i < totalProdutos; i++) 
+        {
+            if (produto[i][0] == id) 
+            {
+                encontrado = true;
+                int quantidade;
+                cout << "Quantidade: ";
+                cin >> quantidade;
+
+                while (quantidade <= 0)
+                   {
+                        cout << "Quantidade inválida\n";
+                        cout << "Quantos produtos deseja comprar? ";
+                        cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+                        cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+                    }
+
+                double preco = stod(produto[i][2]);
+                int iva = stoi(produto[i][3]);
+                double precoComIva = preco * (1 + iva / 100.0);
+
+                carrinho.push_back({
+                    produto[i][0], produto[i][1],
+                    to_string(quantidade),
+                    to_string(preco),
+                    to_string(iva),
+                    to_string(precoComIva),
+                    to_string(quantidade * precoComIva)
+                    });
+
+                cout << produto[i][1] << " adicionado.\n";
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            cout << "Produto não encontrado!\n";
+        }
+
+    } while (true);
+
+    if (!carrinho.empty()) {
+        processarCheckout(carrinho);
+    }
+}
+
 
 int main()
 {
