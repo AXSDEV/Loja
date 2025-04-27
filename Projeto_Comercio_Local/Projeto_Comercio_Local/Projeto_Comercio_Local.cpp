@@ -12,19 +12,19 @@ using namespace std;
 int totalProdutos = 3;
 int colunas = 4; // ID, Nome, Quantidade, Preco 
 int maximoProdutos = 100;
-string** produto = new string* [maximoProdutos];
+string** produto = new string * [maximoProdutos];
 int numeroFatura = 1;
 int numeroCliente = 1;
 
 // Funções
 void inicializarProdutos();
 void produtosDisponiveis();
-void menuPrincipal();
+//void menuPrincipal();
 void efetuarVenda();
 void adicionarProduto();
 void eliminarProduto();
 bool sortearVendaGratis();
-void listarProdutos();
+//void listarProdutos();
 void processarCheckout(string** carrinho, int linhacarrinho);
 void imprimirTalao(string** carrinho, int linhacarrinho, double total, double valorPago, double troco, bool gratis);
 
@@ -40,13 +40,13 @@ void inicializarProdutos()
 	produto[0][1] = "Lapis";
 	produto[0][2] = "20";
 	produto[0][3] = "0.20";
-	
+
 	//produto 2
 	produto[1][0] = "2";
 	produto[1][1] = "Caneta";
 	produto[1][2] = "20";
 	produto[1][3] = "0.40";
-	
+
 	//produto 3
 	produto[2][0] = "3";
 	produto[2][1] = "Caderno";
@@ -75,13 +75,13 @@ void produtosDisponiveis()
 	{
 		if (produto[i][0] != "")
 		{
-			
-				cout << left << setw(wID) << produto[i][0] 
-					<< setw(wNome) << produto[i][1]
-					<< setw(wQnt) << produto[i][2]
-					<< setw(wPreco) << produto[i][3];
-			
-			
+
+			cout << left << setw(wID) << produto[i][0]
+				<< setw(wNome) << produto[i][1]
+				<< setw(wQnt) << produto[i][2]
+				<< setw(wPreco) << produto[i][3];
+
+
 		}
 		cout << endl;
 	}
@@ -93,11 +93,11 @@ void adicionarProduto()
 
 	cout << "Quantos produtos deseja adicionar? ";
 	// Repete até o utilizador inserir um numero acima de 0
-	while (!(cin >> nProdAdicionar) || nProdAdicionar < 0) 
-	/*
-	  O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
-	  Temos de ter em conta que a variavel nProdAdicionar foi criada em int ou seja tem de ser um numero sem este while ao colocar texto o programa iria crashar.
-	*/ 
+	while (!(cin >> nProdAdicionar) || nProdAdicionar < 0)
+		/*
+		  O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
+		  Temos de ter em conta que a variavel nProdAdicionar foi criada em int ou seja tem de ser um numero sem este while ao colocar texto o programa iria crashar.
+		*/
 	{
 		cout << "Atencao, apenas pode inserir números e tem de ser maior que 0.\n";
 		cout << "Quantos produtos deseja adicionar? ";
@@ -180,7 +180,7 @@ void adicionarProduto()
 	// Se adicionar apenas 1
 	if (nProdAdicionar == 1)
 	{
-		cout << endl <<  "Produto adicionado.\n";
+		cout << endl << "Produto adicionado.\n";
 	}
 	// Se adicionar mais que 1
 	if (nProdAdicionar > 1)
@@ -240,174 +240,174 @@ void eliminarProduto()
 }
 
 bool sortearVendaGratis() {
-    return (rand() % 10) == 0; // 10% de chance
+	return (rand() % 10) == 0; // 10% de chance
 }
 
 void efetuarVenda() {
-    int capacidadeCarrinho = 50;
-    int linhacarrinho = 0;
-    string** carrinho = new string * [capacidadeCarrinho];
-    string continuar = "sim";
+	int capacidadeCarrinho = 50;
+	int linhacarrinho = 0;
+	string** carrinho = new string * [capacidadeCarrinho];
+	string continuar = "sim";
 
-    for (int i = 0; i < capacidadeCarrinho; i++) {
-        carrinho[i] = new string[6];
-    }
+	for (int i = 0; i < capacidadeCarrinho; i++) {
+		carrinho[i] = new string[6];
+	}
 
-    do {
-        listarProdutos();
-        cout << "ID do produto ou 'SAIR' para retornar ao Menu Principal: ";
-        string id;
-        cin >> id;
-        if (id == "SAIR") break;
+	do {
+		produtosDisponiveis();
+		cout << "ID do produto ou 'SAIR' para retornar ao Menu Principal: ";
+		string id;
+		cin >> id;
+		if (id == "SAIR") break;
 
-        bool encontrado = false;
-        for (int i = 0; i < totalProdutos; i++) {
-            if (produto[i][0] == id) {
-                encontrado = true;
+		bool encontrado = false;
+		for (int i = 0; i < totalProdutos; i++) {
+			if (produto[i][0] == id) {
+				encontrado = true;
 
-                int quantidade;
-                int stockAtual = stoi(produto[i][2]);
+				int quantidade;
+				int stockAtual = stoi(produto[i][2]);
 
-                cout << "Produto: " << produto[i][1] << endl;
-                cout << "Quantidade disponível: " << produto[i][2] << endl;
+				cout << "Produto: " << produto[i][1] << endl;
+				cout << "Quantidade disponível: " << produto[i][2] << endl;
 
-                do {
-                    cout << "Digite quantidade desejada: ";
-                    cin >> quantidade;
+				do {
+					cout << "Digite quantidade desejada: ";
+					cin >> quantidade;
 
-                    if (quantidade <= 0 || quantidade > stockAtual) {
-                        cout << "Quantidade inválida ou insuficiente no estoque! Tente novamente.\n";
-                    }
-                } while (quantidade <= 0 || quantidade > stockAtual);
+					if (quantidade <= 0 || quantidade > stockAtual) {
+						cout << "Quantidade inválida ou insuficiente no estoque! Tente novamente.\n";
+					}
+				} while (quantidade <= 0 || quantidade > stockAtual);
 
-                double precoCusto = stod(produto[i][3]);
-                double precoVenda = precoCusto * 1.3;
-                double precoComIVA = precoVenda * 1.23;
-                double subtotal = precoComIVA * quantidade;
+				double precoCusto = stod(produto[i][3]);
+				double precoVenda = precoCusto;
+				double iva = precoVenda * 0.23;
+				double subtotal = (iva + precoVenda) * quantidade;
 
-                carrinho[linhacarrinho][0] = produto[i][0];
-                carrinho[linhacarrinho][1] = produto[i][1];
-                carrinho[linhacarrinho][2] = to_string(quantidade);
-                carrinho[linhacarrinho][3] = to_string(precoVenda);
-                carrinho[linhacarrinho][4] = to_string(precoComIVA);
-                carrinho[linhacarrinho][5] = to_string(subtotal);
+				carrinho[linhacarrinho][0] = produto[i][0];
+				carrinho[linhacarrinho][1] = produto[i][1];
+				carrinho[linhacarrinho][2] = to_string(quantidade);
+				carrinho[linhacarrinho][3] = to_string(precoVenda);
+				carrinho[linhacarrinho][4] = to_string(iva);
+				carrinho[linhacarrinho][5] = to_string(subtotal);
 
-                linhacarrinho++;
+				linhacarrinho++;
 
-                produto[i][2] = to_string(stockAtual - quantidade);
+				produto[i][2] = to_string(stockAtual - quantidade);
 
-                cout << "Produto " << produto[i][0] << " adicionado ao carrinho!\n";
-                break;
-            }
-        }
-        if (!encontrado) {
-            cout << "Produto não encontrado!\n";
-        }
+				cout << "Produto " << produto[i][0] << " adicionado ao carrinho!\n";
+				break;
+			}
+		}
+		if (!encontrado) {
+			cout << "Produto nao encontrado!\n";
+		}
 
-        cout << "Deseja adicionar outro produto? (sim/nao): ";
-        cin >> continuar;
+		cout << "Deseja adicionar outro produto? (sim/nao): ";
+		cin >> continuar;
 
-    } while (continuar == "sim");
+	} while (continuar == "sim");
 
-    if (linhacarrinho > 0) {
-        processarCheckout(carrinho, linhacarrinho);
-    }
+	if (linhacarrinho > 0) {
+		processarCheckout(carrinho, linhacarrinho);
+	}
 
-    for (int i = 0; i < capacidadeCarrinho; i++) {
-        delete[] carrinho[i];
-    }
-    delete[] carrinho;
+	for (int i = 0; i < capacidadeCarrinho; i++) {
+		delete[] carrinho[i];
+	}
+	delete[] carrinho;
 }
 
 void processarCheckout(string** carrinho, int linhacarrinho) {
-    double total = 0.0;
-    cout << "\nResumo da Compra:\n";
-    cout << "-----------------------------------------------------------------\n";
-    cout << "| ID  | Nome           | Qtd | Preço Unit. | Preço c/ IVA | Subtotal    |\n";
-    cout << "-----------------------------------------------------------------\n";
+	double total = 0.0;
+	cout << "\nResumo da Compra:\n";
+	cout << "-----------------------------------------------------------------\n";
+	cout << "| ID  | Nome           | Qtd | Preco Unit. | IVA | Subtotal    |\n";
+	cout << "-----------------------------------------------------------------\n";
 
-    for (int i = 0; i < linhacarrinho; i++) {
-        string id = carrinho[i][0];
-        string nome = carrinho[i][1];
-        int quantidade = stoi(carrinho[i][2]);
-        double precoVenda = stod(carrinho[i][3]);
-        double precoComIVA = stod(carrinho[i][4]);
-        double subtotal = stod(carrinho[i][5]);
+	for (int i = 0; i < linhacarrinho; i++) {
+		string id = carrinho[i][0];
+		string nome = carrinho[i][1];
+		int quantidade = stoi(carrinho[i][2]);
+		double precoVenda = stod(carrinho[i][3]);
+		double iva = stod(carrinho[i][4]);
+		double subtotal = stod(carrinho[i][5]);
 
-        total += subtotal;
+		total += subtotal;
 
-        cout << "| " << setw(3) << left << id << " | "
-            << setw(14) << left << nome << " | "
-            << setw(3) << right << quantidade << " | "
-            << setw(10) << fixed << setprecision(2) << precoVenda << " | "
-            << setw(12) << fixed << setprecision(2) << precoComIVA << " | "
-            << setw(10) << fixed << setprecision(2) << subtotal << " |\n";
-    }
+		cout << "| " << setw(3) << left << id << " | "
+			<< setw(14) << left << nome << " | "
+			<< setw(3) << right << quantidade << " | "
+			<< setw(10) << fixed << setprecision(2) << precoVenda << " | "
+			<< setw(12) << fixed << setprecision(2) << iva << " | "
+			<< setw(10) << fixed << setprecision(2) << subtotal << " |\n";
+	}
 
-    cout << "-----------------------------------------------------------------\n";
-    cout << "| TOTAL A PAGAR: " << setw(48) << right << fixed << setprecision(2)
-        << total << " |\n";
-    cout << "-----------------------------------------------------------------\n";
+	cout << "-----------------------------------------------------------------\n";
+	cout << "| TOTAL A PAGAR: " << setw(48) << right << fixed << setprecision(2)
+		<< total << " |\n";
+	cout << "-----------------------------------------------------------------\n";
 
-    bool gratis = sortearVendaGratis();
-    double valorPago = 0.0;
-    double troco = 0.0;
+	bool gratis = sortearVendaGratis();
+	double valorPago = 0.0;
+	double troco = 0.0;
 
-    if (gratis) {
-        cout << "\nParabéns! Sua compra foi gratuita!\n";
-        total = 0.0;
-    }
-    else {
-        cout << "\nTotal a pagar: " << fixed << setprecision(2) << total << " €\n";
+	if (gratis) {
+		cout << "\nParabens! A sua compra foi gratuita!\n";
+		total = 0.0;
+	}
+	else {
+		cout << "\nTotal a pagar: " << fixed << setprecision(2) << total << " euros\n";
 
-        do {
-            cout << "Valor recebido: ";
-            cin >> valorPago;
-            if (valorPago < total) {
-                cout << "Valor insuficiente!\n";
-            }
-        } while (valorPago < total);
+		do {
+			cout << "Valor recebido: ";
+			cin >> valorPago;
+			if (valorPago < total) {
+				cout << "Valor insuficiente!\n";
+			}
+		} while (valorPago < total);
 
-        troco = valorPago - total;
-    }
+		troco = valorPago - total;
+	}
 
-    imprimirTalao(carrinho, linhacarrinho, total, valorPago, troco, gratis);
+	imprimirTalao(carrinho, linhacarrinho, total, valorPago, troco, gratis);
 
-    numeroFatura++;
-    numeroCliente++;
+	numeroFatura++;
+	numeroCliente++;
 }
 
 
 void imprimirTalao(string** carrinho, int linhacarrinho, double total, double valorPago, double troco, bool gratis) {
-    cout << "\n\n=========== TALÃO DE COMPRA ===========\n";
-    time_t agora = time(0);
-    tm tempoLocal;
-    localtime_s(&tempoLocal, &agora);
-    cout << "Data: " << tempoLocal.tm_mday << "/" << tempoLocal.tm_mon + 1 << "/" << tempoLocal.tm_year + 1900 << "\n";
-    cout << "Fatura nº: " << numeroFatura << " | Cliente nº: " << numeroCliente << endl;
-    cout << "--------------------------------------------\n";
-    cout << left << setw(15) << "Produto" << setw(5) << "Qtd" << setw(10) << "Preço" << setw(10) << "Total" << endl;
-    cout << "--------------------------------------------\n";
+	cout << "\n\n=========== TALAO DE COMPRA ===========\n";
+	time_t agora = time(0);
+	tm tempoLocal;
+	localtime_s(&tempoLocal, &agora);
+	cout << "Data: " << tempoLocal.tm_mday << "/" << tempoLocal.tm_mon + 1 << "/" << tempoLocal.tm_year + 1900 << "\n";
+	cout << "Fatura n: " << numeroFatura << " | Cliente n: " << numeroCliente << endl;
+	cout << "--------------------------------------------\n";
+	cout << left << setw(15) << "Produto" << setw(5) << "Qtd" << setw(10) << "Preco" << setw(10) << "Total" << endl;
+	cout << "--------------------------------------------\n";
 
-    for (int i = 0; i < linhacarrinho; i++) {
-        cout << left << setw(15) << carrinho[i][1]
-            << setw(5) << carrinho[i][2]
-            << setw(10) << fixed << setprecision(2) << stod(carrinho[i][4])
-            << setw(10) << fixed << setprecision(2) << stod(carrinho[i][5]) << endl;
-    }
-    cout << "--------------------------------------------\n";
+	for (int i = 0; i < linhacarrinho; i++) {
+		cout << left << setw(15) << carrinho[i][1]
+			<< setw(5) << carrinho[i][2]
+			<< setw(10) << fixed << setprecision(2) << stod(carrinho[i][4])
+			<< setw(10) << fixed << setprecision(2) << stod(carrinho[i][5]) << endl;
+	}
+	cout << "--------------------------------------------\n";
 
-    if (gratis) {
-        cout << "COMPRA GRATUITA!\n";
-    }
-    else {
-        cout << "Total: " << fixed << setprecision(2) << total << " €\n";
-        cout << "Valor pago: " << fixed << setprecision(2) << valorPago << " €\n";
-        cout << "Troco: " << fixed << setprecision(2) << troco << " €\n";
-    }
+	if (gratis) {
+		cout << "COMPRA GRATUITA!\n";
+	}
+	else {
+		cout << "Total: " << fixed << setprecision(2) << total << " euros\n";
+		cout << "Valor pago: " << fixed << setprecision(2) << valorPago << " euros\n";
+		cout << "Troco: " << fixed << setprecision(2) << troco << " euros\n";
+	}
 
-    cout << "============================================\n";
-    cout << "Obrigado pela sua preferência!\n";
+	cout << "============================================\n";
+	cout << "Obrigado pela sua preferencia!\n";
 }
 
 
@@ -442,7 +442,7 @@ int main()
 			efetuarVenda();
 			break;
 		case 3:
-			// Carrinho
+			// checkout
 			break;
 		case 4:
 			// Adicionar produto
@@ -467,7 +467,7 @@ int main()
 			cin.get();
 		}
 	} while (opcao != 6); // repete o menu até sair do programa
-	
+
 }
 
 
