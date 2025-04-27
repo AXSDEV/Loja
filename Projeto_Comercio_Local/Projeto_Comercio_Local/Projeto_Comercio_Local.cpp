@@ -224,6 +224,7 @@ void eliminarProduto()
 	for (int n = 0; n < nProdEliminar; n++)
 	{
 		string id;
+		produtosDisponiveis();
 		cout << "\nDigite o ID do produto a eliminar: ";
 		cin >> id;
 
