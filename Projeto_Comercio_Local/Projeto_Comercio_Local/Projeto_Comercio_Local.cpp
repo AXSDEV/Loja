@@ -6,6 +6,8 @@
 #include <ctime> // para adicionar horas e datas (talao)
 #include <sstream> // para poder usar setprecision em strings || deixa-me usar manipulador de strings
 #include <vector>
+#include <algorithm>  // necessario para transform
+#include <cctype>     // necessario para tolower
 
 using namespace std;
 
@@ -86,24 +88,32 @@ void produtosDisponiveis()
 		cout << endl;
 	}
 }
+
 // Adiciona Produtos
+string toLower(string nomeProduto)
+{
+	transform(nomeProduto.begin(), nomeProduto.end(), nomeProduto.begin(), ::tolower); // transforma em lowercase
+	return nomeProduto; // envia o nome em lowercase para nomeProduto
+}
+
 void adicionarProduto()
 {
 	int nProdAdicionar;
 
 	cout << "Quantos produtos deseja adicionar? ";
 	// Repete até o utilizador inserir um numero acima de 0
-	while (!(cin >> nProdAdicionar) || nProdAdicionar < 0)
+	while (!(cin >> nProdAdicionar) || nProdAdicionar <= 0)
+	{
 		/*
 		  O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
 		  Temos de ter em conta que a variavel nProdAdicionar foi criada em int ou seja tem de ser um numero sem este while ao colocar texto o programa iria crashar.
 		*/
-	{
-		cout << "Atencao, apenas pode inserir números e tem de ser maior que 0.\n";
+		cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
 		cout << "Quantos produtos deseja adicionar? ";
 		cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
 		cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
 	}
+
 	if (nProdAdicionar + totalProdutos >= maximoProdutos)
 	{
 		cout << "Limite maximo de produtos atingido.\n";
@@ -120,14 +130,18 @@ void adicionarProduto()
 		cin.ignore(); // Preciso disto para ele nao ler apenas ate ao espaço em caso de produtos com "2 nomes" como por exemplo "Arroz Doce". com cin >> nome; iria apenas guardar Arroz. E doce iria ficar no buffer e entrar no proximo cin.
 		getline(cin, nome); // Com isto a string nome vai ser "Arroz Doce", vai obrigar a ler até o enter.
 
+		string nomeInserido = toLower(nome); // cria nomeInserido para colocar nome em lowercase para comparação
+
 		for (int j = 0; j < totalProdutos; j++)
 		{
+			string nomeExistente = toLower(produto[j][1]); // cria nomeExistente para colocar todos os nomes de produtos na array em lowercase para comparação
+
 			// Verificar se o produto ja existe, como existe apenas adiciona quantidade
-			if (produto[j][1] == nome)
+			if (nomeExistente == nomeInserido) // se forem iguais então já existe
 			{
 				cout << "Produto ja existe. Que quantidade deseja adicionar?\n";
 				// Repete até o utilizador inserir um numero acima de 0
-				while (!(cin >> qnt) || qnt < 0)
+				while (!(cin >> qnt) || qnt <= 0)
 				{
 					cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
 					cout << "Quantidade: ";
