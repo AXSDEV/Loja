@@ -322,9 +322,9 @@ void efetuarVenda() {
 void processarCheckout(string** carrinho, int linhacarrinho) {
 	double total = 0.0;
 	cout << "\nResumo da Compra:\n";
-	cout << "-----------------------------------------------------------------\n";
-	cout << "| ID  | Nome           | Qtd | Preco Unit. | IVA | Subtotal    |\n";
-	cout << "-----------------------------------------------------------------\n";
+	cout << "----------------------------------------------------------------\n";
+	cout << "| ID  | Nome           | Qtd | Preco Unit. |  IVA  | Subtotal   |\n";
+	cout << "----------------------------------------------------------------\n";
 
 	for (int i = 0; i < linhacarrinho; i++) {
 		string id = carrinho[i][0];
@@ -339,13 +339,13 @@ void processarCheckout(string** carrinho, int linhacarrinho) {
 		cout << "| " << setw(3) << left << id << " | "
 			<< setw(14) << left << nome << " | "
 			<< setw(3) << right << quantidade << " | "
-			<< setw(10) << fixed << setprecision(2) << precoVenda << " | "
-			<< setw(12) << fixed << setprecision(2) << iva << " | "
+			<< setw(11) << fixed << setprecision(2) << precoVenda << " | "
+			<< setw(5) << fixed << setprecision(2) << iva << " | "
 			<< setw(10) << fixed << setprecision(2) << subtotal << " |\n";
 	}
 
 	cout << "-----------------------------------------------------------------\n";
-	cout << "| TOTAL A PAGAR: " << setw(48) << right << fixed << setprecision(2)
+	cout << "| TOTAL A PAGAR: " << setw(46) << right << fixed << setprecision(2)
 		<< total << " |\n";
 	cout << "-----------------------------------------------------------------\n";
 
