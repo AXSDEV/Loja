@@ -284,19 +284,19 @@ void efetuarVenda() {
 				int stockAtual = stoi(produto[i][2]);
 
 				cout << "Produto: " << produto[i][1] << endl;
-				cout << "Quantidade disponível: " << produto[i][2] << endl;
+				cout << "Quantidade disponivel: " << produto[i][2] << endl;
 
 				do {
 					cout << "Digite quantidade desejada: ";
 					cin >> quantidade;
 
 					if (quantidade <= 0 || quantidade > stockAtual) {
-						cout << "Quantidade inválida ou insuficiente no estoque! Tente novamente.\n";
+						cout << "Quantidade invalida ou insuficiente no estoque! Tente novamente.\n";
 					}
 				} while (quantidade <= 0 || quantidade > stockAtual);
 
 				double precoCusto = stod(produto[i][3]);
-				double precoVenda = precoCusto;
+				double precoVenda = precoCusto * 1.30;
 				double iva = precoVenda * 0.23;
 				double subtotal = (iva + precoVenda) * quantidade;
 
@@ -394,23 +394,24 @@ void processarCheckout(string** carrinho, int linhacarrinho) {
 
 
 void imprimirTalao(string** carrinho, int linhacarrinho, double total, double valorPago, double troco, bool gratis) {
-	cout << "\n\n=========== TALAO DE COMPRA ===========\n";
+	cout << "\n\n==================== TALAO DE COMPRA ====================\n";
 	time_t agora = time(0);
 	tm tempoLocal;
 	localtime_s(&tempoLocal, &agora);
 	cout << "Data: " << tempoLocal.tm_mday << "/" << tempoLocal.tm_mon + 1 << "/" << tempoLocal.tm_year + 1900 << "\n";
 	cout << "Fatura n: " << numeroFatura << " | Cliente n: " << numeroCliente << endl;
-	cout << "--------------------------------------------\n";
-	cout << left << setw(15) << "Produto" << setw(5) << "Qtd" << setw(10) << "Preco" << setw(10) << "Total" << endl;
-	cout << "--------------------------------------------\n";
+	cout << "---------------------------------------------------------\n";
+	cout << left << setw(15) << "Produto" << setw(10) << "Qtd" << setw(15) << "Preco S/IVA" << setw(10) << "IVA" << setw(10) << "Total" << endl;
+	cout << "---------------------------------------------------------\n";
 
 	for (int i = 0; i < linhacarrinho; i++) {
 		cout << left << setw(15) << carrinho[i][1]
-			<< setw(5) << carrinho[i][2]
+			<< setw(10) << carrinho[i][2]
+			<< setw(15) << fixed << setprecision(2) << stod(carrinho[i][3])
 			<< setw(10) << fixed << setprecision(2) << stod(carrinho[i][4])
 			<< setw(10) << fixed << setprecision(2) << stod(carrinho[i][5]) << endl;
 	}
-	cout << "--------------------------------------------\n";
+	cout << "---------------------------------------------------------\n";
 
 	if (gratis) {
 		cout << "COMPRA GRATUITA!\n";
@@ -421,7 +422,7 @@ void imprimirTalao(string** carrinho, int linhacarrinho, double total, double va
 		cout << "Troco: " << fixed << setprecision(2) << troco << " euros\n";
 	}
 
-	cout << "============================================\n";
+	cout << "=========================================================\n";
 	cout << "Obrigado pela sua preferencia!\n";
 }
 
