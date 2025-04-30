@@ -17,6 +17,9 @@ int maximoProdutos = 100;
 string** produto = new string * [maximoProdutos];
 int numeroFatura = 1;
 int numeroCliente = 1;
+int capacidadeCarrinho = 50;
+int linhacarrinho = 0;
+string** carrinho = new string * [capacidadeCarrinho];
 
 // Funções
 void inicializarProdutos();
@@ -27,8 +30,8 @@ void adicionarProduto();
 void eliminarProduto();
 bool sortearVendaGratis();
 //void listarProdutos();
-void processarCheckout(string** carrinho, int linhacarrinho);
-void imprimirTalao(string** carrinho, int linhacarrinho, double total, double valorPago, double troco, bool gratis);
+void processarCheckout();
+void imprimirTalao(double total, double valorPago, double troco, bool gratis);
 
 
 void inicializarProdutos()
@@ -259,9 +262,6 @@ bool sortearVendaGratis() {
 }
 
 void efetuarVenda() {
-	int capacidadeCarrinho = 50;
-	int linhacarrinho = 0;
-	string** carrinho = new string * [capacidadeCarrinho];
 	string continuar = "sim";
 
 	for (int i = 0; i < capacidadeCarrinho; i++) {
@@ -324,17 +324,17 @@ void efetuarVenda() {
 
 	} while (continuar == "sim");
 
-	if (linhacarrinho > 0) {
+	/*if (linhacarrinho > 0) {
 		processarCheckout(carrinho, linhacarrinho);
 	}
 
 	for (int i = 0; i < capacidadeCarrinho; i++) {
 		delete[] carrinho[i];
 	}
-	delete[] carrinho;
+	delete[] carrinho;*/
 }
 
-void processarCheckout(string** carrinho, int linhacarrinho) {
+void processarCheckout() {
 	double total = 0.0;
 	cout << "\nResumo da Compra:\n";
 	cout << "----------------------------------------------------------------\n";
@@ -386,14 +386,29 @@ void processarCheckout(string** carrinho, int linhacarrinho) {
 		troco = valorPago - total;
 	}
 
-	imprimirTalao(carrinho, linhacarrinho, total, valorPago, troco, gratis);
+	imprimirTalao(total, valorPago, troco, gratis);
 
 	numeroFatura++;
 	numeroCliente++;
+
+	// Limpar o carrinho após o checkout
+
+	for (int i = 0; i < linhacarrinho; i++) {
+
+		for (int j = 0; j < 6; j++) {
+
+			carrinho[i][j].clear();
+
+		}
+
+	}
+
+	linhacarrinho = 0;
+
 }
 
 
-void imprimirTalao(string** carrinho, int linhacarrinho, double total, double valorPago, double troco, bool gratis) {
+void imprimirTalao(double total, double valorPago, double troco, bool gratis) {
 	cout << "\n\n==================== TALAO DE COMPRA ====================\n";
 	time_t agora = time(0);
 	tm tempoLocal;
@@ -459,6 +474,18 @@ int main()
 			break;
 		case 3:
 			// checkout
+			if (linhacarrinho > 0) {
+				processarCheckout();
+				// Resetar o carrinho após o checkout
+				for (int i = 0; i < linhacarrinho; i++) {
+					delete[] carrinho[i];
+				}
+				linhacarrinho = 0;
+			}
+			else {
+				cout << "Carrinho vazio. Adicione produtos antes de fazer checkout.\n";
+			}
+
 			break;
 		case 4:
 			// Adicionar produto
