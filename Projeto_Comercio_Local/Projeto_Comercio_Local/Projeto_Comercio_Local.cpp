@@ -21,18 +21,18 @@ int capacidadeCarrinho = 50;
 int linhacarrinho = 0;
 string** carrinho = new string * [capacidadeCarrinho];
 
+
 // Funções
 void inicializarProdutos();
 void produtosDisponiveis();
 //void menuPrincipal();
-void efetuarVenda();
+void adicionarCarrinho();
 void adicionarProduto();
 void eliminarProduto();
 bool sortearVendaGratis();
 //void listarProdutos();
 void processarCheckout();
 void imprimirTalao(double total, double valorPago, double troco, bool gratis);
-
 
 void inicializarProdutos()
 {
@@ -261,12 +261,8 @@ bool sortearVendaGratis() {
 	return (rand() % 10) == 0; // 10% de chance
 }
 
-void efetuarVenda() {
+void adicionarCarrinho() {
 	string continuar = "sim";
-
-	for (int i = 0; i < capacidadeCarrinho; i++) {
-		carrinho[i] = new string[6];
-	}
 
 	do {
 		produtosDisponiveis();
@@ -292,6 +288,7 @@ void efetuarVenda() {
 
 					if (quantidade <= 0 || quantidade > stockAtual) {
 						cout << "Quantidade invalida ou insuficiente no estoque! Tente novamente.\n";
+						return;
 					}
 				} while (quantidade <= 0 || quantidade > stockAtual);
 
@@ -299,6 +296,11 @@ void efetuarVenda() {
 				double precoVenda = precoCusto * 1.30;
 				double iva = precoVenda * 0.23;
 				double subtotal = (iva + precoVenda) * quantidade;
+				
+				if (linhacarrinho >= capacidadeCarrinho) {
+					cout << "Carrinho cheio! Finalize a compra ou limpe o carrinho.\n";
+					break;
+				}
 
 				carrinho[linhacarrinho][0] = produto[i][0];
 				carrinho[linhacarrinho][1] = produto[i][1];
@@ -333,6 +335,8 @@ void efetuarVenda() {
 	}
 	delete[] carrinho;*/
 }
+
+
 
 void processarCheckout() {
 	double total = 0.0;
@@ -446,6 +450,10 @@ int main()
 {
 	inicializarProdutos();
 
+	for (int i = 0; i < capacidadeCarrinho; i++) {
+		carrinho[i] = new string[6];  // 6 colunas: ID, Nome, Quantidade, Preço, IVA, Subtotal
+	}
+
 	int opcao;
 
 	do {
@@ -470,7 +478,7 @@ int main()
 			break;
 		case 2:
 			// Comprar produto
-			efetuarVenda();
+			adicionarCarrinho();
 			break;
 		case 3:
 			// checkout
