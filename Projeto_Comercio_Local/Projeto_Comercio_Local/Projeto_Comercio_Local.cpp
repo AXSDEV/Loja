@@ -19,20 +19,21 @@ int numeroFatura = 1;
 int numeroCliente = 1;
 int capacidadeCarrinho = 50;
 int linhacarrinho = 0;
-string** carrinho = new string * [capacidadeCarrinho];
-
 
 // Funções
 void inicializarProdutos();
 void produtosDisponiveis();
 //void menuPrincipal();
-void adicionarCarrinho();
+void adicionarCarrinho(string** carrinho);
 void adicionarProduto();
 void eliminarProduto();
 bool sortearVendaGratis();
 //void listarProdutos();
-void processarCheckout();
-void imprimirTalao(double total, double valorPago, double troco, bool gratis);
+void processarCheckout(string** carrinho);
+void imprimirTalao(string** carrinho, double total, double valorPago, double troco, bool gratis);
+void menu(string** carrinho);
+void eliminarCarrinho(string** carrinho);
+void mostrarCarrinho(string** carrinho);
 
 void inicializarProdutos()
 {
@@ -219,7 +220,7 @@ void eliminarProduto()
 	if (nProdEliminar > totalProdutos)
 	{
 		cout << "Nao existem " << nProdEliminar << " produtos na loja.";
-		return eliminarProduto();
+		return;
 	}
 
 	bool encontrado = false;
@@ -260,8 +261,113 @@ void eliminarProduto()
 bool sortearVendaGratis() {
 	return (rand() % 10) == 0; // 10% de chance
 }
+void mostrarCarrinho(string** carrinho) {
+	int opcao;
+	double total = 0.0;
+	system("CLS");
+	cout << "\n=== Carrinho de Compras ===\n";
+	cout << "----------------------------------------------------------------\n";
+	cout << "| ID  | Nome           | Qtd | Preco Unit. |  IVA  | Subtotal   |\n";
+	cout << "----------------------------------------------------------------\n";
 
-void adicionarCarrinho() {
+	for (int i = 0; i < linhacarrinho; i++) {
+		string id = carrinho[i][0];
+		string nome = carrinho[i][1];
+		int quantidade = stoi(carrinho[i][2]);
+		double precoVenda = stod(carrinho[i][3]);
+		double iva = stod(carrinho[i][4]);
+		double subtotal = stod(carrinho[i][5]);
+
+		total += subtotal;
+
+		cout << "| " << setw(3) << left << id << " | "
+			<< setw(14) << left << nome << " | "
+			<< setw(3) << right << quantidade << " | "
+			<< setw(11) << fixed << setprecision(2) << precoVenda << " | "
+			<< setw(5) << fixed << setprecision(2) << iva << " | "
+			<< setw(10) << fixed << setprecision(2) << subtotal << " |\n";
+	}
+
+	cout << "-----------------------------------------------------------------\n";
+	cout << "| TOTAL A PAGAR: " << setw(46) << right << fixed << setprecision(2)
+		<< total << " |\n";
+	cout << "-----------------------------------------------------------------\n";
+
+	cout << endl << "Pressione enter para ver o menu do carrinho.";
+	cin.ignore();
+	cin.get();
+
+	do
+	{
+		system("CLS");
+		cout << "[1] Adicionar Produto ao carrinho\n";
+		cout << "[2] Eliminar Produto do carrinho\n";
+		cout << "[3] Voltar ao Menu Principal.\n";
+		cout << "\nEscolha uma opcao: ";
+		cin >> opcao;
+
+	switch (opcao)
+	{
+	case 1: 
+		adicionarCarrinho(carrinho);
+		break;
+	case 2: 
+		eliminarCarrinho(carrinho);
+		break;
+	case 3: 
+		menu(carrinho);
+		break;
+	default:
+		// Opcao invalida
+		cout << endl << "Opcao invalida. Tente novamente.\n";
+		break;
+	}
+	} while (opcao !=6);
+	if (opcao != 6)
+	{
+		cout << endl << "Pressione enter para voltar ao menu.";
+		cin.ignore();
+		cin.get();
+	}
+}
+
+void eliminarCarrinho(string** carrinho) {
+	
+	int nProdEliminarCarrinho;
+	cout << "Quantos produtos deseja eliminar? ";
+	cin >> nProdEliminarCarrinho;
+
+	if (nProdEliminarCarrinho > capacidadeCarrinho)
+	{
+		cout << "Nao existem " << nProdEliminarCarrinho << " produtos na loja.";
+		return;
+	}
+	for (int n = 0; n < nProdEliminarCarrinho; n++)
+	{
+		string id;
+		cout << "\nDigite o ID do produto a eliminar: ";
+		cin >> id;
+
+		for (int i = 0; i < capacidadeCarrinho; i++)
+		{
+			if (carrinho[i][0] == id)
+			{
+				for (int j = i; j < capacidadeCarrinho - 1; j++)
+				{
+					for (int k = 0; k < linhacarrinho; k++)
+					{
+						carrinho[j][k] = carrinho[j + 1][k]; // vai colocar a linha vazia em ultimo
+					}
+				}
+				carrinho--; // Elimina a ultima linha que se encontra vazia
+				cout << endl << "Produto eliminado. \n";
+				break;
+			}
+		}
+	}
+}
+
+void adicionarCarrinho(string** carrinho) {
 	string continuar = "sim";
 
 	do {
@@ -325,20 +431,11 @@ void adicionarCarrinho() {
 		cin >> continuar;
 
 	} while (continuar == "sim");
-
-	/*if (linhacarrinho > 0) {
-		processarCheckout(carrinho, linhacarrinho);
-	}
-
-	for (int i = 0; i < capacidadeCarrinho; i++) {
-		delete[] carrinho[i];
-	}
-	delete[] carrinho;*/
 }
 
 
 
-void processarCheckout() {
+void processarCheckout(string** carrinho) {
 	double total = 0.0;
 	cout << "\nResumo da Compra:\n";
 	cout << "----------------------------------------------------------------\n";
@@ -390,7 +487,7 @@ void processarCheckout() {
 		troco = valorPago - total;
 	}
 
-	imprimirTalao(total, valorPago, troco, gratis);
+	imprimirTalao(carrinho, total, valorPago, troco, gratis);
 
 	numeroFatura++;
 	numeroCliente++;
@@ -412,7 +509,7 @@ void processarCheckout() {
 }
 
 
-void imprimirTalao(double total, double valorPago, double troco, bool gratis) {
+void imprimirTalao(string** carrinho, double total, double valorPago, double troco, bool gratis) {
 	cout << "\n\n==================== TALAO DE COMPRA ====================\n";
 	time_t agora = time(0);
 	tm tempoLocal;
@@ -445,15 +542,7 @@ void imprimirTalao(double total, double valorPago, double troco, bool gratis) {
 	cout << "Obrigado pela sua preferencia!\n";
 }
 
-
-int main()
-{
-	inicializarProdutos();
-
-	for (int i = 0; i < capacidadeCarrinho; i++) {
-		carrinho[i] = new string[6];  // 6 colunas: ID, Nome, Quantidade, Preço, IVA, Subtotal
-	}
-
+void menu(string** carrinho) {
 	int opcao;
 
 	do {
@@ -463,7 +552,7 @@ int main()
 		cout << " |==============|\n";
 		cout << endl;
 		cout << "[1] Produtos Disponiveis\n";
-		cout << "[2] Comprar Produto\n";
+		cout << "[2] Carrinho\n";
 		cout << "[3] Checkout\n";
 		cout << "[4] Adicionar Produto\n";
 		cout << "[5] Eliminar Produto\n";
@@ -478,21 +567,11 @@ int main()
 			break;
 		case 2:
 			// Comprar produto
-			adicionarCarrinho();
+			mostrarCarrinho(carrinho);
 			break;
 		case 3:
-			// checkout
-			if (linhacarrinho > 0) {
-				processarCheckout();
-				// Resetar o carrinho após o checkout
-				for (int i = 0; i < linhacarrinho; i++) {
-					delete[] carrinho[i];
-				}
-				linhacarrinho = 0;
-			}
-			else {
-				cout << "Carrinho vazio. Adicione produtos antes de fazer checkout.\n";
-			}
+			// carrinho
+			processarCheckout(carrinho);
 
 			break;
 		case 4:
@@ -521,6 +600,18 @@ int main()
 
 }
 
+int main()
+{
+	inicializarProdutos();
+	
+
+	string** carrinho = new string * [capacidadeCarrinho];
+
+	for (int i = 0; i < capacidadeCarrinho; i++) {
+		carrinho[i] = new string[6];  // 6 colunas: ID, Nome, Quantidade, Preço, IVA, Subtotal
+	}
+	menu(carrinho);
+}
 
 
 
@@ -533,8 +624,18 @@ int main()
 
 
 
-
-
+//
+//if (linhacarrinho > 0) {
+//	processarCheckout();
+//	// Resetar o carrinho após o checkout
+//	for (int i = 0; i < linhacarrinho; i++) {
+//		delete[] carrinho[i];
+//	}
+//	linhacarrinho = 0;
+//}
+//else {
+//	cout << "Carrinho vazio. Adicione produtos antes de fazer checkout.\n";
+//}
 
 
 
