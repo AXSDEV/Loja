@@ -261,6 +261,7 @@ void eliminarProduto()
 bool sortearVendaGratis() {
 	return (rand() % 10) == 0; // 10% de chance
 }
+
 void mostrarCarrinho(string** carrinho) {
 	int opcao;
 	double total = 0.0;
@@ -348,21 +349,43 @@ void eliminarCarrinho(string** carrinho) {
 		cout << "\nDigite o ID do produto a eliminar: ";
 		cin >> id;
 
-		for (int i = 0; i < capacidadeCarrinho; i++)
+		bool encontrado = false;
+
+		for (int i = 0; i < linhacarrinho; i++)
 		{
 			if (carrinho[i][0] == id)
 			{
-				for (int j = i; j < capacidadeCarrinho - 1; j++)
+				for (int p = 0; p < totalProdutos; p++)
 				{
-					for (int k = 0; k < linhacarrinho; k++)
+					if (produto[p][0] == id)
+					{
+						int qntEliminada = stoi(carrinho[i][2]); // quantidade que tinha sido adicionado ao carrinho
+						int qntEstoqueAtual = stoi(produto[p][2]); // quantidade no stock 
+						produto[p][2] = to_string(qntEstoqueAtual + qntEliminada); // soma dos sotck + a quantidade eliminada do carrinho 
+						break;
+					}
+				}
+				for (int j = i; j < linhacarrinho - 1; j++)
+				{
+					for (int k = 0; k < 6; k++)
 					{
 						carrinho[j][k] = carrinho[j + 1][k]; // vai colocar a linha vazia em ultimo
 					}
 				}
-				carrinho--; // Elimina a ultima linha que se encontra vazia
+				for (int n = 0; n < 6; n++)
+				{
+					carrinho[linhacarrinho - 1][n].clear(); // .clear é usado para limpar o conteudo de uma string tornado-a em ""
+				}
+
+				linhacarrinho--; // Elimina a ultima linha que se encontra vazia
 				cout << endl << "Produto eliminado. \n";
+				encontrado = true;
 				break;
 			}
+		}
+		if (!encontrado)
+		{
+			cout << "Produto nao encontrado no carrinho.\n";
 		}
 	}
 }
@@ -375,7 +398,8 @@ void adicionarCarrinho(string** carrinho) {
 		cout << "ID do produto ou 'SAIR' para retornar ao Menu Principal: ";
 		string id;
 		cin >> id;
-		if (id == "SAIR") break;
+		id = toLower(id);
+		if (id == "sair") break;
 
 		bool encontrado = false;
 		for (int i = 0; i < totalProdutos; i++) {
@@ -429,6 +453,8 @@ void adicionarCarrinho(string** carrinho) {
 
 		cout << "Deseja adicionar outro produto? (sim/nao): ";
 		cin >> continuar;
+
+		continuar = toLower(continuar);
 
 	} while (continuar == "sim");
 }
