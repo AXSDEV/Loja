@@ -27,5 +27,5 @@ Done
 
 ---
 
-AXS - I'm working on deleting product from cart
+AXS - I-m working on ...
 Fabiana - I'm working on ...
