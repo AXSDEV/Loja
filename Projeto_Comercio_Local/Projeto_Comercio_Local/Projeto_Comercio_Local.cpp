@@ -547,6 +547,7 @@ void processarCheckout(string** carrinho) {
 	bool gratis = sortearVendaGratis();
 	double valorPago = 0.0;
 	double troco = 0.0;
+	
 
 	if (gratis) {
 		cout << "\nParabens! A sua compra foi gratuita!\n";
@@ -562,11 +563,23 @@ void processarCheckout(string** carrinho) {
 
 			if (valorPago == 0) return;
 			if (valorPago == -1) {
+				for (int i = 0; i < linhacarrinho; i++)
+				{
+					int qntCarrinho = stoi(carrinho[i][2]);
+
+					for (int j = 0; j < totalProdutos; j++)
+					{
+						if (produto[j][0] == carrinho[i][0])
+						{
+							int stockAtual = stoi(produto[j][2]);
+
+							produto[j][2] = to_string(stockAtual + qntCarrinho); // devolver a quantidade do carrinho ao stock
+							break;
+						}
+					}
+				}
 				limparCarrinho(carrinho);
 				cout << "A sua compra foi cancelada.\n";
-				cout << "\nPressione ENTER para voltar ao menu...";
-				cin.ignore();
-				cin.get();
 				return;
 				
 			}
