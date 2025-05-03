@@ -34,6 +34,8 @@ void imprimirTalao(string** carrinho, double total, double valorPago, double tro
 void menu(string** carrinho);
 void eliminarCarrinho(string** carrinho);
 void mostrarCarrinho(string** carrinho);
+void modificarPreco(double novoPrecoT, string id);
+void printCarrinho(string** carrinho, double total);
 
 void inicializarProdutos()
 {
@@ -206,7 +208,9 @@ void adicionarProduto()
 		cout << endl << "Produtos adicionados.\n";
 	}
 	// Imprime autalizacao de estoque
-	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos adicionados.
+	cout << endl << "|=============| ";
+	cout << "Atualizacao de estoque "; //para mostrar os produtos adicionados.
+	cout << " |==============|\n";
 	produtosDisponiveis();
 }
 
@@ -262,10 +266,8 @@ bool sortearVendaGratis() {
 	return (rand() % 10) == 0; // 10% de chance
 }
 
-void mostrarCarrinho(string** carrinho) {
-	int opcao;
+void printCarrinho(string** carrinho) {
 	double total = 0.0;
-	system("CLS");
 	cout << "\n=== Carrinho de Compras ===\n";
 	cout << "----------------------------------------------------------------\n";
 	cout << "| ID  | Nome           | Qtd | Preco Unit. |  IVA  | Subtotal   |\n";
@@ -280,6 +282,12 @@ void mostrarCarrinho(string** carrinho) {
 		double subtotal = stod(carrinho[i][5]);
 
 		total += subtotal;
+		
+		if (carrinho[0][0] == "")
+		{
+			cout << endl << "O carrinho esta vazio.\n";
+			return;
+		}
 
 		cout << "| " << setw(3) << left << id << " | "
 			<< setw(14) << left << nome << " | "
@@ -289,21 +297,29 @@ void mostrarCarrinho(string** carrinho) {
 			<< setw(10) << fixed << setprecision(2) << subtotal << " |\n";
 	}
 
+
 	cout << "-----------------------------------------------------------------\n";
 	cout << "| TOTAL A PAGAR: " << setw(46) << right << fixed << setprecision(2)
 		<< total << " |\n";
 	cout << "-----------------------------------------------------------------\n";
+}
 
-	cout << endl << "Pressione enter para ver o menu do carrinho.";
-	cin.ignore();
-	cin.get();
+void mostrarCarrinho(string** carrinho) {
+	int opcao;
+
+	system("CLS");
+	if (carrinho[0][0] != "")
+	{
+		printCarrinho(carrinho);
+	}
 
 	do
 	{
 		system("CLS");
 		cout << "[1] Adicionar Produto ao carrinho\n";
 		cout << "[2] Eliminar Produto do carrinho\n";
-		cout << "[3] Voltar ao Menu Principal.\n";
+		cout << "[3] Ver o conteudo do carrinho\n";
+		cout << "[4] Voltar ao Menu Principal.\n";
 		cout << "\nEscolha uma opcao: ";
 		cin >> opcao;
 
@@ -316,6 +332,19 @@ void mostrarCarrinho(string** carrinho) {
 		eliminarCarrinho(carrinho);
 		break;
 	case 3: 
+		if (carrinho[0][0] != "")
+		{
+			printCarrinho(carrinho);
+		}
+		else
+		{
+			cout << "O carrinho encontra-se vazio.";
+			cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
+			cin.ignore();
+			cin.get();
+		}
+		break;
+	case 4: 
 		menu(carrinho);
 		break;
 	default:
@@ -323,10 +352,10 @@ void mostrarCarrinho(string** carrinho) {
 		cout << endl << "Opcao invalida. Tente novamente.\n";
 		break;
 	}
-	} while (opcao !=6);
-	if (opcao != 6)
+	} while (opcao !=5);
+	if (opcao != 5)
 	{
-		cout << endl << "Pressione enter para voltar ao menu.";
+		cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
 		cin.ignore();
 		cin.get();
 	}
@@ -346,6 +375,7 @@ void eliminarCarrinho(string** carrinho) {
 	for (int n = 0; n < nProdEliminarCarrinho; n++)
 	{
 		string id;
+		printCarrinho(carrinho);
 		cout << "\nDigite o ID do produto a eliminar: ";
 		cin >> id;
 
@@ -388,6 +418,9 @@ void eliminarCarrinho(string** carrinho) {
 			cout << "Produto nao encontrado no carrinho.\n";
 		}
 	}
+	cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
+	cin.ignore();
+	cin.get();
 }
 
 void adicionarCarrinho(string** carrinho) {
@@ -503,8 +536,12 @@ void processarCheckout(string** carrinho) {
 		cout << "\nTotal a pagar: " << fixed << setprecision(2) << total << " euros\n";
 
 		do {
+			cout << "Insira o Valor recebido ou escreva 0 para voltar ao Menu Principal\n";
 			cout << "Valor recebido: ";
 			cin >> valorPago;
+
+			if (valorPago == 0) return;
+
 			if (valorPago < total) {
 				cout << "Valor insuficiente!\n";
 			}
@@ -568,6 +605,65 @@ void imprimirTalao(string** carrinho, double total, double valorPago, double tro
 	cout << "Obrigado pela sua preferencia!\n";
 }
 
+void modificarPreco() {
+	double novoPrecoT; 
+	string id;
+	string continuar = "sim";
+	bool encontrado = false;
+
+	do
+	{
+		produtosDisponiveis();
+		cout << endl << "Insira o ID do produto a qual deseja modificar o preco ou 'SAIR' para retornar ao Menu Principal: ";
+		cin >> id;
+		id = toLower(id);
+
+		if (id == "sair") break;
+
+
+		for (int i = 0; i < totalProdutos; i++)
+		{
+			if (id == produto[i][0])
+			{
+				encontrado = true;
+				cout << endl << "Preco atual: " << produto[i][3] << endl;
+				cout << endl << "Insira o novo preco do produto: ";
+
+				while (!(cin >> novoPrecoT) || novoPrecoT < 0)
+				{
+					cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+					cout << "Preco: ";
+					cin.clear(); // para conseguir introduzir uma nova entrada || vai limpar o erro
+					cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+				}
+
+				ostringstream novoFormatado; // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
+				novoFormatado << fixed << setprecision(2) << novoPrecoT; // vai formatar o preco para ter 2 casas decimais
+				produto[i][3] = novoFormatado.str();
+			}	
+		}
+		if (!encontrado)
+		{
+			cout << "Produto nao encontrado.\n";
+			break;
+		}
+
+		cout << endl << "Deseja modificar mais algum preco? (sim/nao)\n";
+		cin >> continuar;
+
+		continuar = toLower(continuar);
+
+	} while (continuar == "sim");
+	
+	cout << endl << "|=============| ";
+	cout << "Atualizacao de precos "; //para mostrar os novos precos.
+	cout << " |==============|\n";
+	produtosDisponiveis();
+	cout << "\nPressione ENTER para voltar ao menu...";
+	cin.ignore();
+	cin.get();
+}
+
 void menu(string** carrinho) {
 	int opcao;
 
@@ -582,9 +678,17 @@ void menu(string** carrinho) {
 		cout << "[3] Checkout\n";
 		cout << "[4] Adicionar Produto\n";
 		cout << "[5] Eliminar Produto\n";
-		cout << "[6] Sair\n";
+		cout << "[6] Modificar Preco\n";
+		cout << "[7] Sair\n";
 		cout << "Escolha uma opcao: ";
-		cin >> opcao;
+		
+		if (!(cin >> opcao))
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << "Apenas pode inserir numeros. Por favor tente novamente.\n";
+		}
+
 		switch (opcao)
 		{
 		case 1:
@@ -608,7 +712,10 @@ void menu(string** carrinho) {
 			// Eliminar produto
 			eliminarProduto();
 			break;
-		case 6:
+		case 6: 
+			// Modificar preço do produto
+			modificarPreco();
+		case 7:
 			cout << endl << "A desligar o progama...\n";
 			break;
 		default:
@@ -622,7 +729,7 @@ void menu(string** carrinho) {
 			cin.ignore();
 			cin.get();
 		}
-	} while (opcao != 6); // repete o menu até sair do programa
+	} while (opcao != 7); // repete o menu até sair do programa
 
 }
 
