@@ -215,6 +215,9 @@ void eliminarProduto()
 	if (nProdEliminar > totalProdutos)
 	{
 		cout << "Nao existem " << nProdEliminar << " produtos na loja.";
+		cout << "\nPressione ENTER para voltar ao menu...";
+		cin.ignore();
+		cin.get();
 		return;
 	}
 
@@ -334,7 +337,7 @@ void mostrarCarrinho(string** carrinho) {
 			else
 			{
 				cout << "O carrinho encontra-se vazio.";
-				cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
+				cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
 				cin.ignore();
 				cin.get();
 			}
@@ -353,7 +356,7 @@ void mostrarCarrinho(string** carrinho) {
 	} while (opcao != 5);
 	if (opcao != 5)
 	{
-		cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
+		cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
 		cin.ignore();
 		cin.get();
 	}
@@ -440,7 +443,7 @@ void adicionarCarrinho(string** carrinho) {
 				int quantidade;
 				int stockAtual = stoi(produto[i][2]);
 
-				cout << "Produto: " << produto[i][1] << endl;
+				cout << endl << "Produto: " << produto[i][1] << endl;
 				cout << "Quantidade disponivel: " << produto[i][2] << endl;
 
 				do {
