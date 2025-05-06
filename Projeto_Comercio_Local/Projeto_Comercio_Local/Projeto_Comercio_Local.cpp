@@ -67,31 +67,21 @@ void inicializarProdutos()
 void produtosDisponiveis()
 {
 	cout << endl << "Produtos Disponiveis " << endl;
-	//Larguras fixas
-	int wID = 5;
-	int wNome = 20;
-	int wQnt = 10;
-	int wPreco = 10;
-
-	//Cabeçalho alinhado 
-	cout << left << setw(wID) << "ID"
-		<< setw(wNome) << "Nome"
-		<< setw(wQnt) << "Qnt"
-		<< setw(wPreco) << "Preco" << endl;
+	
+	//Cabeçalho 
+	cout << left << setw(5) << "ID"
+		<< setw(20) << "Nome"
+		<< setw(10) << "Qnt"
+		<< setw(10) << "Preco" << endl;
 
 	//Lista de produtos
 	for (int i = 0; i < totalProdutos; i++)
 	{
-		if (produto[i][0] != "")
-		{
+			cout << left << setw(5) << produto[i][0]
+				<< setw(20) << produto[i][1]
+				<< setw(10) << produto[i][2]
+				<< setw(10) << produto[i][3];
 
-			cout << left << setw(wID) << produto[i][0]
-				<< setw(wNome) << produto[i][1]
-				<< setw(wQnt) << produto[i][2]
-				<< setw(wPreco) << produto[i][3];
-
-
-		}
 		cout << endl;
 	}
 }
@@ -283,7 +273,7 @@ void printCarrinho(string** carrinho) {
 		double subtotal = stod(carrinho[i][5]);
 
 		total += subtotal;
-		
+
 		if (carrinho[0][0] == "")
 		{
 			cout << endl << "O carrinho esta vazio.\n";
@@ -325,42 +315,42 @@ void mostrarCarrinho(string** carrinho) {
 		cout << "\nEscolha uma opcao: ";
 		cin >> opcao;
 
-	switch (opcao)
-	{
-	case 1: 
-		adicionarCarrinho(carrinho);
-		break;
-	case 2: 
-		eliminarCarrinho(carrinho);
-		break;
-	case 3: 
-		if (carrinho[0][0] != "")
+		switch (opcao)
 		{
-			printCarrinho(carrinho);
-			cout << "\nPressione ENTER para voltar ao menu...";
-			cin.ignore();
-			cin.get();
+		case 1:
+			adicionarCarrinho(carrinho);
+			break;
+		case 2:
+			eliminarCarrinho(carrinho);
+			break;
+		case 3:
+			if (carrinho[0][0] != "")
+			{
+				printCarrinho(carrinho);
+				cout << "\nPressione ENTER para voltar ao menu...";
+				cin.ignore();
+				cin.get();
+			}
+			else
+			{
+				cout << "O carrinho encontra-se vazio.";
+				cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
+				cin.ignore();
+				cin.get();
+			}
+			break;
+		case 4:
+			processarCheckout(carrinho);
+			break;
+		case 5:
+			menu(carrinho);
+			break;
+		default:
+			// Opcao invalida
+			cout << endl << "Opcao invalida. Tente novamente.\n";
+			break;
 		}
-		else
-		{
-			cout << "O carrinho encontra-se vazio.";
-			cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
-			cin.ignore();
-			cin.get();
-		}
-		break;
-	case 4: 
-		processarCheckout(carrinho);
-		break;
-	case 5: 
-		menu(carrinho);
-		break;
-	default:
-		// Opcao invalida
-		cout << endl << "Opcao invalida. Tente novamente.\n";
-		break;
-	}
-	} while (opcao !=5);
+	} while (opcao != 5);
 	if (opcao != 5)
 	{
 		cout << endl << "Pressione enter para voltar ao Menu do carrinho.";
@@ -370,7 +360,7 @@ void mostrarCarrinho(string** carrinho) {
 }
 
 void eliminarCarrinho(string** carrinho) {
-	
+
 	int nProdEliminarCarrinho;
 	cout << "Quantos produtos deseja eliminar? ";
 	cin >> nProdEliminarCarrinho;
@@ -467,7 +457,7 @@ void adicionarCarrinho(string** carrinho) {
 				double precoVenda = precoCusto * 1.30;
 				double iva = precoVenda * 0.23;
 				double subtotal = (iva + precoVenda) * quantidade;
-				
+
 				if (linhacarrinho >= capacidadeCarrinho) {
 					cout << "Carrinho cheio! Finalize a compra ou limpe o carrinho.\n";
 					break;
@@ -542,12 +532,12 @@ void processarCheckout(string** carrinho) {
 			<< total << " |\n";
 		cout << "-----------------------------------------------------------------\n";
 	}
-	
+
 
 	bool gratis = sortearVendaGratis();
 	double valorPago = 0.0;
 	double troco = 0.0;
-	
+
 
 	if (gratis) {
 		cout << "\nParabens! A sua compra foi gratuita!\n";
@@ -581,7 +571,7 @@ void processarCheckout(string** carrinho) {
 				limparCarrinho(carrinho);
 				cout << "A sua compra foi cancelada.\n";
 				return;
-				
+
 			}
 
 			if (valorPago < total) {
@@ -652,7 +642,7 @@ void imprimirTalao(string** carrinho, double total, double valorPago, double tro
 }
 
 void modificarPreco() {
-	double novoPrecoT; 
+	double novoPrecoT;
 	string id;
 	string continuar = "sim";
 	bool encontrado = false;
@@ -686,7 +676,7 @@ void modificarPreco() {
 				ostringstream novoFormatado; // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
 				novoFormatado << fixed << setprecision(2) << novoPrecoT; // vai formatar o preco para ter 2 casas decimais
 				produto[i][3] = novoFormatado.str();
-			}	
+			}
 		}
 		if (!encontrado)
 		{
@@ -700,7 +690,7 @@ void modificarPreco() {
 		continuar = toLower(continuar);
 
 	} while (continuar == "sim");
-	
+
 	cout << endl << "|=============| ";
 	cout << "Atualizacao de precos "; //para mostrar os novos precos.
 	cout << " |==============|\n";
@@ -727,7 +717,7 @@ void menu(string** carrinho) {
 		cout << "[6] Modificar Preco\n";
 		cout << "[7] Sair\n";
 		cout << "Escolha uma opcao: ";
-		
+
 		if (!(cin >> opcao))
 		{
 			cin.clear();
@@ -757,7 +747,7 @@ void menu(string** carrinho) {
 			// Eliminar produto
 			eliminarProduto();
 			break;
-		case 6: 
+		case 6:
 			// Modificar preço do produto
 			modificarPreco();
 		case 7:
@@ -781,7 +771,7 @@ void menu(string** carrinho) {
 int main()
 {
 	inicializarProdutos();
-	
+
 
 	string** carrinho = new string * [capacidadeCarrinho];
 
