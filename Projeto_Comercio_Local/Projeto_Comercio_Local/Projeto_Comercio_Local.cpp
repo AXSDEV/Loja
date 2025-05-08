@@ -66,8 +66,8 @@ void inicializarProdutos()
 //Imprime os produtos default
 void produtosDisponiveis()
 {
-	cout << endl << "Produtos Disponiveis " << endl;
-	
+	cout << "Produtos Disponiveis " << endl;
+
 	//Cabeçalho 
 	cout << left << setw(5) << "ID"
 		<< setw(20) << "Nome"
@@ -77,10 +77,10 @@ void produtosDisponiveis()
 	//Lista de produtos
 	for (int i = 0; i < totalProdutos; i++)
 	{
-			cout << left << setw(5) << produto[i][0]
-				<< setw(20) << produto[i][1]
-				<< setw(10) << produto[i][2]
-				<< setw(10) << produto[i][3];
+		cout << left << setw(5) << produto[i][0]
+			<< setw(20) << produto[i][1]
+			<< setw(10) << produto[i][2]
+			<< setw(10) << produto[i][3];
 
 		cout << endl;
 	}
@@ -199,7 +199,8 @@ void adicionarProduto()
 		cout << endl << "Produtos adicionados.\n";
 	}
 	// Imprime autalizacao de estoque
-	cout << endl << "|=============| ";
+	system("CLS");
+	cout << "|=============| ";
 	cout << "Atualizacao de estoque "; //para mostrar os produtos adicionados.
 	cout << " |==============|\n";
 	produtosDisponiveis();
@@ -252,7 +253,8 @@ void eliminarProduto()
 	{
 		cout << "Produto nao encontrado.\n";
 	}
-	cout << "\nAtualizacao de estoque: \n"; //para mostrar os produtos restantes e atualizar estoque.
+	system("CLS");
+	cout << "Atualizacao de estoque : \n"; //para mostrar os produtos restantes e atualizar estoque.
 	produtosDisponiveis();
 }
 
@@ -301,7 +303,6 @@ void printCarrinho(string** carrinho) {
 void mostrarCarrinho(string** carrinho) {
 	int opcao;
 
-	system("CLS");
 	if (carrinho[0][0] != "")
 	{
 		printCarrinho(carrinho);
@@ -321,14 +322,17 @@ void mostrarCarrinho(string** carrinho) {
 		switch (opcao)
 		{
 		case 1:
+			system("CLS");
 			adicionarCarrinho(carrinho);
 			break;
 		case 2:
+			system("CLS");
 			eliminarCarrinho(carrinho);
 			break;
 		case 3:
 			if (carrinho[0][0] != "")
 			{
+				system("CLS");
 				printCarrinho(carrinho);
 				cout << "\nPressione ENTER para voltar ao menu...";
 				cin.ignore();
@@ -336,6 +340,7 @@ void mostrarCarrinho(string** carrinho) {
 			}
 			else
 			{
+				system("CLS");
 				cout << "O carrinho encontra-se vazio.";
 				cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
 				cin.ignore();
@@ -343,9 +348,11 @@ void mostrarCarrinho(string** carrinho) {
 			}
 			break;
 		case 4:
+			system("CLS");
 			processarCheckout(carrinho);
 			break;
 		case 5:
+			system("CLS");
 			menu(carrinho);
 			break;
 		default:
@@ -428,6 +435,7 @@ void adicionarCarrinho(string** carrinho) {
 	string continuar = "sim";
 
 	do {
+		system("CLS");
 		produtosDisponiveis();
 		cout << "ID do produto ou 'SAIR' para retornar ao Menu Principal: ";
 		string id;
@@ -550,7 +558,7 @@ void processarCheckout(string** carrinho) {
 		cout << "\nTotal a pagar: " << fixed << setprecision(2) << total << " euros\n";
 
 		do {
-			cout << "Insira o Valor recebido ou escreva 0 voltar ao Menu Principal, se desejar cancelar a compra escreva -1.\n";
+			cout << "Insira o Valor recebido ou escreva 0 voltar ao Menu, se desejar cancelar a compra escreva -1.\n";
 			cout << "Valor recebido: ";
 			cin >> valorPago;
 
@@ -572,6 +580,7 @@ void processarCheckout(string** carrinho) {
 					}
 				}
 				limparCarrinho(carrinho);
+				system("CLS");
 				cout << "A sua compra foi cancelada.\n";
 				return;
 
@@ -689,12 +698,12 @@ void modificarPreco() {
 
 		cout << endl << "Deseja modificar mais algum preco? (sim/nao)\n";
 		cin >> continuar;
-
+		system("CLS");
 		continuar = toLower(continuar);
 
 	} while (continuar == "sim");
 
-	cout << endl << "|=============| ";
+	cout << "|=============| ";
 	cout << "Atualizacao de precos "; //para mostrar os novos precos.
 	cout << " |==============|\n";
 	produtosDisponiveis();
@@ -732,26 +741,32 @@ void menu(string** carrinho) {
 		{
 		case 1:
 			// Mostrar produtos disponíveis
+			system("CLS");
 			produtosDisponiveis();
 			break;
 		case 2:
 			// Comprar produto
+			system("CLS");
 			mostrarCarrinho(carrinho);
 			break;
 		case 3:
 			// carrinho
+			system("CLS");
 			processarCheckout(carrinho);
 			break;
 		case 4:
 			// Adicionar produto
+			system("CLS");
 			adicionarProduto();
 			break;
 		case 5:
 			// Eliminar produto
+			system("CLS");
 			eliminarProduto();
 			break;
 		case 6:
 			// Modificar preço do produto
+			system("CLS");
 			modificarPreco();
 		case 7:
 			cout << endl << "A desligar o progama...\n";
