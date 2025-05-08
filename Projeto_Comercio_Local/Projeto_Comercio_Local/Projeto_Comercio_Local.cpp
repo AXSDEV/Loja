@@ -216,9 +216,6 @@ void eliminarProduto()
 	if (nProdEliminar > totalProdutos)
 	{
 		cout << "Nao existem " << nProdEliminar << " produtos na loja.";
-		cout << "\nPressione ENTER para voltar ao menu...";
-		cin.ignore();
-		cin.get();
 		return;
 	}
 
@@ -334,17 +331,11 @@ void mostrarCarrinho(string** carrinho) {
 			{
 				system("CLS");
 				printCarrinho(carrinho);
-				cout << "\nPressione ENTER para voltar ao menu...";
-				cin.ignore();
-				cin.get();
 			}
 			else
 			{
 				system("CLS");
-				cout << "O carrinho encontra-se vazio.";
-				cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
-				cin.ignore();
-				cin.get();
+				cout << "O carrinho encontra-se vazio.";	
 			}
 			break;
 		case 4:
@@ -352,21 +343,19 @@ void mostrarCarrinho(string** carrinho) {
 			processarCheckout(carrinho);
 			break;
 		case 5:
-			system("CLS");
-			menu(carrinho);
 			break;
 		default:
 			// Opcao invalida
 			cout << endl << "Opcao invalida. Tente novamente.\n";
 			break;
 		}
+		if (opcao != 5)
+		{
+			cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
+			cin.ignore();
+			cin.get();
+		}
 	} while (opcao != 5);
-	if (opcao != 5)
-	{
-		cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
-		cin.ignore();
-		cin.get();
-	}
 }
 
 void eliminarCarrinho(string** carrinho) {
@@ -426,9 +415,7 @@ void eliminarCarrinho(string** carrinho) {
 			cout << "Produto nao encontrado no carrinho.\n";
 		}
 	}
-	cout << endl << "Pressione ENTER para voltar ao menu do carrinho.";
-	cin.ignore();
-	cin.get();
+
 }
 
 void adicionarCarrinho(string** carrinho) {
@@ -508,9 +495,6 @@ void processarCheckout(string** carrinho) {
 	if (carrinho[0][0] == "")
 	{
 		cout << "O carrinho encontra-se vazio.\n";
-		cout << "\nPressione ENTER para voltar ao menu...";
-		cin.ignore();
-		cin.get();
 		return;
 	}
 	else
@@ -598,9 +582,6 @@ void processarCheckout(string** carrinho) {
 
 	numeroFatura++;
 	numeroCliente++;
-	cout << "\nPressione ENTER para voltar ao menu...";
-	cin.ignore();
-	cin.get();
 	// Limpar o carrinho após o checkout
 	limparCarrinho(carrinho);
 
@@ -707,9 +688,6 @@ void modificarPreco() {
 	cout << "Atualizacao de precos "; //para mostrar os novos precos.
 	cout << " |==============|\n";
 	produtosDisponiveis();
-	cout << "\nPressione ENTER para voltar ao menu...";
-	cin.ignore();
-	cin.get();
 }
 
 void menu(string** carrinho) {
@@ -768,6 +746,7 @@ void menu(string** carrinho) {
 			// Modificar preço do produto
 			system("CLS");
 			modificarPreco();
+			break;
 		case 7:
 			cout << endl << "A desligar o progama...\n";
 			break;
@@ -776,7 +755,7 @@ void menu(string** carrinho) {
 			cout << endl << "Opcao invalida. Tente novamente.\n";
 			break;
 		}
-		if (opcao != 6)
+		if (opcao != 7)
 		{
 			cout << endl << "Pressione Enter para voltar ao menu.";
 			cin.ignore();
