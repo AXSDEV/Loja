@@ -8,6 +8,10 @@
 #include <vector>
 #include <algorithm>  // necessario para transform
 #include <cctype>     // necessario para tolower
+#include <conio.h> 
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
 
 using namespace std;
 
@@ -37,6 +41,42 @@ void mostrarCarrinho(string** carrinho);
 void modificarPreco(double novoPrecoT, string id);
 void printCarrinho(string** carrinho, double total);
 void limparCarrinho(string** carrinho);
+
+bool login()
+{
+	string utilizador, senha, senhaEscondida;
+	char caracter;
+
+	cout << "====== LOGIN ADMIN ======";
+	cout << "\n Utilizador: ";
+	cin >> utilizador;
+	cout << "\n Senha: ";
+	
+	
+	while ((caracter = _getch()) != 13)  // 13 é o código para ENTER em ASCII ou seja enquanto nao der ENTER repete
+	{
+		if (caracter == 8 && !senhaEscondida.empty()) // 8 representa BACKSPACE em ASCII
+		{
+			senhaEscondida.pop_back();
+			cout << "\b \b"; // \b faz com que o cursor volte uma posicao para trás o space vai substituir o que esta escrito por um espaço e o outro \b volta a posicao atras tirando o espaço em branco
+		}
+		else if (caracter != 8)
+		{
+			senhaEscondida.push_back(caracter);  // Adiciona os caracteres digitados na string senhaEscondida
+			cout << "*";  // Mostra * por cada caracter digitado
+		}
+	}
+
+	senha = senhaEscondida;
+
+	if (utilizador == "admin" && senha == "admin123")
+	{
+		cout << "Bem-Vindo!";
+		return true;
+	}
+		cout << RED << "\nAs credenciais sao invalidas!\n" << RESET;
+		return false;
+}
 
 void inicializarProdutos()
 {
@@ -113,7 +153,7 @@ void adicionarProduto()
 
 	if (nProdAdicionar + totalProdutos >= maximoProdutos)
 	{
-		cout << "Limite maximo de produtos atingido.\n";
+		cout << RED << "Limite maximo de produtos atingido.\n" << RESET ;
 		return;
 	}
 	for (int i = 0; i < nProdAdicionar; i++)
@@ -191,12 +231,12 @@ void adicionarProduto()
 	// Se adicionar apenas 1
 	if (nProdAdicionar == 1)
 	{
-		cout << endl << "Produto adicionado.\n";
+		cout << GREEN << endl << "Produto adicionado.\n" << RESET;
 	}
 	// Se adicionar mais que 1
 	if (nProdAdicionar > 1)
 	{
-		cout << endl << "Produtos adicionados.\n";
+		cout << GREEN << endl << "Produtos adicionados.\n" << RESET;
 	}
 	// Imprime autalizacao de estoque
 	system("CLS");
@@ -215,7 +255,7 @@ void eliminarProduto()
 
 	if (nProdEliminar > totalProdutos)
 	{
-		cout << "Nao existem " << nProdEliminar << " produtos na loja.";
+		cout << RED << "Nao existem " << nProdEliminar << " produtos na loja." << RESET;
 		return;
 	}
 
@@ -240,7 +280,7 @@ void eliminarProduto()
 					}
 				}
 				totalProdutos--; // Elimina a ultima linha que se encontra vazia
-				cout << endl << "Produto eliminado. \n";
+				cout << RED <<  endl << "Produto eliminado. \n" << RESET;
 				encontrado = true;
 				break;
 			}
@@ -248,7 +288,7 @@ void eliminarProduto()
 	}
 	if (!encontrado)
 	{
-		cout << "Produto nao encontrado.\n";
+		cout << RED << "Produto nao encontrado.\n" << RESET;
 	}
 	system("CLS");
 	cout << "Atualizacao de estoque : \n"; //para mostrar os produtos restantes e atualizar estoque.
@@ -366,7 +406,7 @@ void eliminarCarrinho(string** carrinho) {
 
 	if (nProdEliminarCarrinho > capacidadeCarrinho)
 	{
-		cout << "Nao existem " << nProdEliminarCarrinho << " produtos na loja.";
+		cout << RED << "Nao existem " << nProdEliminarCarrinho << " produtos na loja." << RESET;
 		return;
 	}
 	for (int n = 0; n < nProdEliminarCarrinho; n++)
@@ -405,14 +445,14 @@ void eliminarCarrinho(string** carrinho) {
 				}
 
 				linhacarrinho--; // Elimina a ultima linha que se encontra vazia
-				cout << endl << "Produto eliminado. \n";
+				cout << RED << endl << "Produto eliminado. \n" << RESET;
 				encontrado = true;
 				break;
 			}
 		}
 		if (!encontrado)
 		{
-			cout << "Produto nao encontrado no carrinho.\n";
+			cout << RED << "Produto nao encontrado no carrinho.\n" << RESET;
 		}
 	}
 
@@ -457,7 +497,7 @@ void adicionarCarrinho(string** carrinho) {
 				double subtotal = (iva + precoVenda) * quantidade;
 
 				if (linhacarrinho >= capacidadeCarrinho) {
-					cout << "Carrinho cheio! Finalize a compra ou limpe o carrinho.\n";
+					cout << RED << "Carrinho cheio! Finalize a compra ou limpe o carrinho.\n" << RESET;
 					break;
 				}
 
@@ -472,12 +512,12 @@ void adicionarCarrinho(string** carrinho) {
 
 				produto[i][2] = to_string(stockAtual - quantidade);
 
-				cout << "Produto " << produto[i][0] << " adicionado ao carrinho!\n";
+				cout << GREEN << "Produto " << produto[i][0] << " adicionado ao carrinho!\n" << RESET;
 				break;
 			}
 		}
 		if (!encontrado) {
-			cout << "Produto nao encontrado!\n";
+			cout << RED << "Produto nao encontrado!\n" << RESET;
 		}
 
 		cout << "Deseja adicionar outro produto? (sim/nao): ";
@@ -494,7 +534,7 @@ void processarCheckout(string** carrinho) {
 	double total = 0.0;
 	if (carrinho[0][0] == "")
 	{
-		cout << "O carrinho encontra-se vazio.\n";
+		cout << RED << "O carrinho encontra-se vazio.\n" << RESET;
 		return;
 	}
 	else
@@ -565,13 +605,13 @@ void processarCheckout(string** carrinho) {
 				}
 				limparCarrinho(carrinho);
 				system("CLS");
-				cout << "A sua compra foi cancelada.\n";
+				cout << RED << "A sua compra foi cancelada.\n" << RESET;
 				return;
 
 			}
 
 			if (valorPago < total) {
-				cout << "Valor insuficiente!\n";
+				cout << RED << "Valor insuficiente!\n" << RESET;
 			}
 		} while (valorPago < total);
 
@@ -622,7 +662,7 @@ void imprimirTalao(string** carrinho, double total, double valorPago, double tro
 	cout << "---------------------------------------------------------\n";
 
 	if (gratis) {
-		cout << "COMPRA GRATUITA!\n";
+		cout << GREEN << "COMPRA GRATUITA!\n" << RESET;
 	}
 	else {
 		cout << "Total: " << fixed << setprecision(2) << total << " euros\n";
@@ -673,7 +713,7 @@ void modificarPreco() {
 		}
 		if (!encontrado)
 		{
-			cout << "Produto nao encontrado.\n";
+			cout << RED << "Produto nao encontrado.\n" << RESET;
 			break;
 		}
 
@@ -748,7 +788,7 @@ void menu(string** carrinho) {
 			modificarPreco();
 			break;
 		case 7:
-			cout << endl << "A desligar o progama...\n";
+			cout << RED << endl << "A desligar o progama...\n" << RESET;
 			break;
 		default:
 			// Opcao invalida
@@ -767,6 +807,11 @@ void menu(string** carrinho) {
 
 int main()
 {
+	while (login() == false)
+	{
+		cout << RED << "Tente novamente.\n" << RESET;
+	}
+
 	inicializarProdutos();
 
 
