@@ -9,9 +9,9 @@
 #include <algorithm>  // necessario para transform
 #include <cctype>     // necessario para tolower
 #include <conio.h> 
-#define RESET	"\033[0m"
-#define RED		"\033[31m"
-#define GREEN	"\033[32m"
+#define RESET	"\033[0m" // Define a cor de texto para padrão
+#define RED	"\033[31m" // Define a cor de texto para vermelho
+#define GREEN	"\033[32m" // Define a cor de texto para verde
 
 using namespace std;
 
