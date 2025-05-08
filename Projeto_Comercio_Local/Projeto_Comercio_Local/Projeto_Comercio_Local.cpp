@@ -9,9 +9,9 @@
 #include <algorithm>  // necessario para transform
 #include <cctype>     // necessario para tolower
 #include <conio.h> 
-#define RESET   "\033[0m"
-#define RED     "\033[31m"
-#define GREEN   "\033[32m"
+#define RESET	"\033[0m"
+#define RED		"\033[31m"
+#define GREEN	"\033[32m"
 
 using namespace std;
 
@@ -301,6 +301,13 @@ bool sortearVendaGratis() {
 
 void printCarrinho(string** carrinho) {
 	double total = 0.0;
+	
+	if (carrinho[0][0] == "")
+	{
+		cout << "O carrinho esta vazio." << endl << endl;
+		return;
+	}
+
 	cout << "\n=== Carrinho de Compras ===\n";
 	cout << "----------------------------------------------------------------\n";
 	cout << "| ID  | Nome           | Qtd | Preco Unit. |  IVA  | Subtotal   |\n";
@@ -315,12 +322,6 @@ void printCarrinho(string** carrinho) {
 		double subtotal = stod(carrinho[i][5]);
 
 		total += subtotal;
-
-		if (carrinho[0][0] == "")
-		{
-			cout << endl << "O carrinho esta vazio.\n";
-			return;
-		}
 
 		cout << "| " << setw(3) << left << id << " | "
 			<< setw(14) << left << nome << " | "
@@ -340,14 +341,11 @@ void printCarrinho(string** carrinho) {
 void mostrarCarrinho(string** carrinho) {
 	int opcao;
 
-	if (carrinho[0][0] != "")
-	{
-		printCarrinho(carrinho);
-	}
 
 	do
 	{
 		system("CLS");
+		printCarrinho(carrinho);
 		cout << "[1] Adicionar Produto ao carrinho\n";
 		cout << "[2] Eliminar Produto do carrinho\n";
 		cout << "[3] Ver o conteudo do carrinho\n";
