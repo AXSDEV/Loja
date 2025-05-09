@@ -46,7 +46,7 @@ bool login()
     cout << "====== LOGIN ADMIN ======";
     cout << "\n Utilizador: ";
     cin >> utilizador;
-    cout << "\n Senha: ";
+    cout << "\n Palavra-Passe: ";
 
     while ((caracter = _getch()) != 13) // 13 é o código para ENTER em ASCII ou seja enquanto nao der ENTER repete
     {
