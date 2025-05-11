@@ -3,7 +3,7 @@
 #include <string>   // para usar strings
 #include <ctime>    // para adicionar horas e datas (talao)
 #include <sstream>  // para poder usar setprecision em strings || deixa-me usar manipulador de strings
-// #include <vector>
+#include <windows.h> // necessario para usar sleep
 #include <algorithm> // necessario para transform
 #include <cctype>    // necessario para tolower
 #include <conio.h>   // para usar _getch() para esconder a senha no login
@@ -69,7 +69,10 @@ bool login()
 
     if (utilizador == "admin" && senha == "admin123")
     {
-        cout << "Bem-Vindo!";
+        system("CLS");
+        cout << GREEN << "Bem-Vindo!" << RESET;
+        Sleep(3000);
+        
         return true;
     }
     cout << RED << endl
@@ -859,11 +862,11 @@ void menu(string** carrinho)
 
 int main()
 {
-    while (login() == false)
+        while (login() == false)
     {
         cout << RED << "Tente novamente.\n"
             << RESET;
-    }
+    } 
 
     inicializarProdutos();
 
