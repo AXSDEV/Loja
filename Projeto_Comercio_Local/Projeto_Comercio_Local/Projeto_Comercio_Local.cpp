@@ -7,7 +7,8 @@
 #include <algorithm>     // necessario para transform
 #include <cctype>        // necessario para tolower
 #include <conio.h>       // para usar _getch() para esconder a senha no login
-#define RESET "\033[0m"  // Define a cor de texto para padrão
+// \033 é o escape para iniciar ANSI 27 | [0m é para repor para formatação padrão | [31m é para cor vermelho | [32m é para cor verde
+#define RESET "\033[0m"  // Define a cor de texto para padrão 
 #define RED "\033[31m"   // Define a cor de texto para vermelho
 #define GREEN "\033[32m" // Define a cor de texto para verde
 
