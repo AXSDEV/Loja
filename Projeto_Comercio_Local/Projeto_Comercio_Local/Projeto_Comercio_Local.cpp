@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream> // biblioteca padrão de entrada e saída
 #include <iomanip> // para usar manipuladores de entrada e saida para controlar a formatação dos dados
 #include <string>  // para usar strings
 #include <ctime>   // para adicionar horas e datas (talao)
