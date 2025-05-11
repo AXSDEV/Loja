@@ -11,7 +11,8 @@
 #define RESET "\033[0m"  // Define a cor de texto para padrão 
 #define RED "\033[31m"   // Define a cor de texto para vermelho
 #define GREEN "\033[32m" // Define a cor de texto para verde
-
+// ASCII é um padrão de codificação de caracteres
+// ANSI é para códigos especiais que controlam a aparência do texto no terminal.
 using namespace std;
 
 int totalProdutos = 3;
