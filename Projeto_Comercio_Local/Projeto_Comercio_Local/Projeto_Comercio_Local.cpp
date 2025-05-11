@@ -1,14 +1,14 @@
 #include <iostream> // biblioteca padrão de entrada e saída
-#include <iomanip> // para usar manipuladores de entrada e saida para controlar a formatação dos dados
-#include <string>  // para usar strings
-#include <ctime>   // para adicionar horas e datas (talao)
-#include <sstream> // para poder usar setprecision em strings || deixa-me usar manipulador de strings
-//#include <vector>
-#include <algorithm>     // necessario para transform
-#include <cctype>        // necessario para tolower
-#include <conio.h>       // para usar _getch() para esconder a senha no login
+#include <iomanip>  // para usar manipuladores de entrada e saida para controlar a formatação dos dados
+#include <string>   // para usar strings
+#include <ctime>    // para adicionar horas e datas (talao)
+#include <sstream>  // para poder usar setprecision em strings || deixa-me usar manipulador de strings
+// #include <vector>
+#include <algorithm> // necessario para transform
+#include <cctype>    // necessario para tolower
+#include <conio.h>   // para usar _getch() para esconder a senha no login
 // \033 é o escape para iniciar ANSI 27 | [0m é para repor para formatação padrão | [31m é para cor vermelho | [32m é para cor verde
-#define RESET "\033[0m"  // Define a cor de texto para padrão 
+#define RESET "\033[0m"  // Define a cor de texto para padrão
 #define RED "\033[31m"   // Define a cor de texto para vermelho
 #define GREEN "\033[32m" // Define a cor de texto para verde
 // ASCII é um padrão de codificação de caracteres
@@ -72,7 +72,8 @@ bool login()
         cout << "Bem-Vindo!";
         return true;
     }
-    cout << RED << endl << "\nAs credenciais sao invalidas!\n"
+    cout << RED << endl
+        << "\nAs credenciais sao invalidas!\n"
         << RESET;
     return false;
 }
@@ -125,20 +126,21 @@ void produtosDisponiveis()
     }
 }
 
-// Adiciona Produtos
+// Inicialização do toLower
 string toLower(string nomeProduto)
 {
     transform(nomeProduto.begin(), nomeProduto.end(), nomeProduto.begin(), ::tolower); // transforma em lowercase
     return nomeProduto;                                                                // envia o nome em lowercase para nomeProduto
 }
 
+// Adiciona Produtos
 void adicionarProduto()
 {
     int nProdAdicionar;
 
     cout << "Quantos produtos deseja adicionar? ";
     // Repete até o utilizador inserir um numero acima de 0
-    while (!(cin >> nProdAdicionar) || nProdAdicionar <= 0)
+    while (!(cin >> nProdAdicionar) || nProdAdicionar < 0)
     {
         /*
           O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
