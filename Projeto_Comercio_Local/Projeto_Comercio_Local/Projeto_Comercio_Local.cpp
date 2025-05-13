@@ -47,16 +47,16 @@ bool login()
 
     cout << "====== LOGIN ADMIN ======";
     cout << "\n Utilizador: ";
-    getline(cin, utilizador); // Para caso alguem escreva por exemplo admin arroz nao consiga entrar, sem o getline ele apesar de estar escrito admin arroz o buffer iria apenas ler admin e iria conseguir efetuar login
+    getline(cin, utilizador); // Lê a linha inteira, mesmo com espaços (ex: "admin arroz")
     cout << "\n Palavra-Passe: ";
 
     // Ler a senha sem mostrá-la
-    while ((caracter = _getch()) != 13) // 13 é o código para ENTER em ASCII ou seja enquanto nao der ENTER repete
+    while ((caracter = _getch()) != 13) // Repete até carregar ENTER (ASCII 13)
     {
-        if (caracter == 8 && !senhaEscondida.empty()) // 8 representa BACKSPACE em ASCII
+        if (caracter == 8 && !senhaEscondida.empty()) // BACKSPACE (ASCII 8) apaga último char
         {
             senhaEscondida.pop_back();
-            cout << "\b \b"; // \b faz com que o cursor volte uma posicao para trás o space vai substituir o que esta escrito por um espaço e o outro \b volta a posicao atras tirando o espaço em branco
+            cout << "\b \b"; // Apaga último caractere no terminal
         }
         else if (caracter != 8)
         {
@@ -135,7 +135,7 @@ void produtosDisponiveis()
 string toLower(string nomeProduto)
 {
     transform(nomeProduto.begin(), nomeProduto.end(), nomeProduto.begin(), ::tolower); // transforma em lowercase
-    return nomeProduto;                                                                // envia o nome em lowercase para nomeProduto
+    return nomeProduto;                                                                // envia o nome em lowercase para variavel
 }
 
 // Adiciona Produtos
@@ -144,20 +144,17 @@ void adicionarProduto()
     int nProdAdicionar;
 
     cout << "Quantos produtos deseja adicionar? ";
-    // Repete até o utilizador inserir um numero acima de 0
+    // Repete até inserir número > 0
     while (!(cin >> nProdAdicionar) || nProdAdicionar < 0)
     {
-        /*
-          O(!(cin >> nProdAdicionar) || nProdAdicionar <= 0) diz que se cin >> nProdAdicionar nao for um numero ou for maior ou igual a 0 para repetir
-          Temos de ter em conta que a variavel nProdAdicionar foi criada em int ou seja tem de ser um numero sem este while ao colocar texto o programa iria crashar.
-        */
+        // Repete se não for número ou se for ≤ 0 (evita crash ao inserir texto)
         cout << endl << RED 
              << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n" 
              << RESET;
         cout << endl 
              << "Quantos produtos deseja adicionar? ";
-        cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
-        cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+        cin.clear();            // Limpa o erro para permitir nova entrada
+        cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER
     }
 
     if (nProdAdicionar + totalProdutos >= maximoProdutos)
@@ -169,25 +166,25 @@ void adicionarProduto()
     for (int i = 0; i < nProdAdicionar; i++)
     {
         int qnt;
-        double precoT; // preco Temporario
+        double precoT; // Preco Temporario
         string nome;
         bool produtoExiste = false;
 
         cout << "Nome: ";
-        cin.ignore();       // Preciso disto para ele nao ler apenas ate ao espaço em caso de produtos com "2 nomes" como por exemplo "Arroz Doce". com cin >> nome; iria apenas guardar Arroz. E doce iria ficar no buffer e entrar no proximo cin.
-        getline(cin, nome); // Com isto a string nome vai ser "Arroz Doce", vai obrigar a ler até o enter.
+        cin.ignore();       // Limpa o buffer para evitar ler apenas até o espaço
+        getline(cin, nome); // Lê a linha inteira até o ENTER, incluindo espaços
 
-        string nomeInserido = toLower(nome); // cria nomeInserido para colocar nome em lowercase para comparação
+        string nomeInserido = toLower(nome); // Converte o nome para minúsculas para comparação
 
         for (int j = 0; j < totalProdutos; j++)
         {
-            string nomeExistente = toLower(produto[j][1]); // cria nomeExistente para colocar todos os nomes de produtos na array em lowercase para comparação
+            string nomeExistente = toLower(produto[j][1]); // Converte nome do produto para minúsculas para comparação
 
-            // Verificar se o produto ja existe, como existe apenas adiciona quantidade
-            if (nomeExistente == nomeInserido) // se forem iguais então já existe
+            // Verifica se o produto já existe, se sim, adiciona à quantidade
+            if (nomeExistente == nomeInserido) // Se os nomes coincidirem, o produto já existe
             {
                 cout << "Produto ja existe. Que quantidade deseja adicionar?\n";
-                // Repete até o utilizador inserir um numero acima de 0
+                // Repete até o utilizador inserir um número maior que 0
                 while (!(cin >> qnt) || qnt <= 0)
                 {
                     cout << endl << RED 
@@ -195,11 +192,11 @@ void adicionarProduto()
                          << RESET;
                     cout << endl 
                          << "Quantidade: ";
-                    cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
-                    cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+                    cin.clear();            // Limpa o erro para permitir uma nova entrada
+                    cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER
                 }
 
-                int qntAtual = stoi(produto[j][2]); // Quantidade do produto em stock
+                int qntAtual = stoi(produto[j][2]); // Converte a quantidade de produto em string para inteiro
                 produto[j][2] = to_string(qntAtual + qnt);
                 produtoExiste = true;
                 cout << "O estoque foi atualizado.";
@@ -208,14 +205,14 @@ void adicionarProduto()
             }
         }
 
-        // Senao existir entao criar um novo
+        // Se não existir, cria um novo
         if (!produtoExiste)
         {
-            produto[totalProdutos][0] = to_string(totalProdutos + 1); // to_string converte o inteiro para string e depois torna o id automatico fazendo +1
+            produto[totalProdutos][0] = to_string(totalProdutos + 1); // Converte o ID para string e incrementa automaticamente
             produto[totalProdutos][1] = nome;
 
             cout << "Quantidade: ";
-            // Repete até o utilizador inserir um numero acima de 0
+            // Repete até o utilizador inserir um número maior que 0
             while (!(cin >> qnt) || qnt < 0)
             {
                 cout << endl << RED 
@@ -223,13 +220,13 @@ void adicionarProduto()
                      << RESET;
                 cout << endl 
                      << "Quantidade: ";
-                cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
-                cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+                cin.clear();            // Limpa o erro para permitir uma nova entrada
+                cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER
             }
             produto[totalProdutos][2] = to_string(qnt);
 
             cout << "Preco: ";
-            // Repete até o utilizador inserir um numero acima de 0
+            // Repete até o utilizador inserir um número maior que 0
             while (!(cin >> precoT) || precoT < 0)
             {
                 cout << endl << RED 
@@ -237,12 +234,12 @@ void adicionarProduto()
                      << RESET;
                 cout << endl 
                      << "Preco: ";
-                cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
-                cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+                cin.clear();            // Limpa o erro para permitir uma nova entrada
+                cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER
             }
 
-            ostringstream conversao;                         // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
-            conversao << fixed << setprecision(2) << precoT; // vai formatar o preco para ter 2 casas decimais
+            ostringstream conversao;                         // Permite formatar dados e convertê-los para string
+            conversao << fixed << setprecision(2) << precoT; // Formata o preço com 2 casas decimais
             produto[totalProdutos][3] = conversao.str();
 
             totalProdutos++;
@@ -267,12 +264,12 @@ void adicionarProduto()
     // Imprime autalizacao de estoque
     system("CLS");
     cout << "|=============| ";
-    cout << "Atualizacao de estoque "; // para mostrar os produtos adicionados.
+    cout << "Atualizacao de estoque "; // Mostra os produtos adicionados.
     cout << " |==============|\n";
     produtosDisponiveis();
 }
 
-// eliminar produto
+// Eliminar produto
 void eliminarProduto()
 {
     int nProdEliminar;
@@ -285,8 +282,8 @@ void eliminarProduto()
              << RESET;
         cout << endl 
              << "Quantos produtos deseja eliminar? ";
-        cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
-        cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+        cin.clear();            // Limpa o erro para permitir uma nova entrada
+        cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER, limpando o buffer
     }
 
     if (nProdEliminar > totalProdutos)
@@ -314,7 +311,7 @@ void eliminarProduto()
                 {
                     for (int k = 0; k < colunas; k++)
                     {
-                        produto[j][k] = produto[j + 1][k]; // vai colocar a linha vazia em ultimo
+                        produto[j][k] = produto[j + 1][k]; // Vai colocar a linha vazia em ultimo
                     }
                 }
                 totalProdutos--; // Elimina a ultima linha que se encontra vazia
@@ -333,11 +330,11 @@ void eliminarProduto()
         cout << RED << "Produto nao encontrado.\n"
              << RESET;
     }
-    cout << "Atualizacao de estoque : \n"; // para mostrar os produtos restantes e atualizar estoque.
+    cout << "Atualizacao de estoque : \n"; // Exibe os produtos restantes e atualiza o estoque
     produtosDisponiveis();
 }
 
-bool sortearVendaGratis()
+bool sortearVendaGratis() // Sorteio de venda gratis
 {
     return (rand() % 10) == 0; // 10% de chance
 }
@@ -436,7 +433,17 @@ void eliminarCarrinho(string** carrinho)
 
     int nProdEliminarCarrinho;
     cout << "Quantos produtos deseja eliminar? ";
-    cin >> nProdEliminarCarrinho;
+
+    while (!(cin >> nProdEliminarCarrinho) || nProdEliminarCarrinho < 0)
+    {
+        cout << endl << RED
+            << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n"
+            << RESET;
+        cout << endl
+            << "Quantos produtos deseja eliminar? ";
+        cin.clear();            // Limpa o erro para permitir uma nova entrada
+        cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER, limpando o buffer
+    }
 
     if (nProdEliminarCarrinho > capacidadeCarrinho)
     {
@@ -449,8 +456,11 @@ void eliminarCarrinho(string** carrinho)
     {
         string id;
         printCarrinho(carrinho);
-        cout << "\nDigite o ID do produto a eliminar: ";
+        cout << "\nDigite o ID do produto a eliminar ou 'SAIR' para retornar ao Menu Principal : ";
         cin >> id;
+        id = toLower(id);
+        if (id == "sair")
+            continue;
 
         bool encontrado = false;
 
@@ -462,9 +472,9 @@ void eliminarCarrinho(string** carrinho)
                 {
                     if (produto[p][0] == id)
                     {
-                        int qntEliminada = stoi(carrinho[i][2]);                   // quantidade que tinha sido adicionado ao carrinho
-                        int qntEstoqueAtual = stoi(produto[p][2]);                 // quantidade no stock
-                        produto[p][2] = to_string(qntEstoqueAtual + qntEliminada); // soma dos stock + a quantidade eliminada do carrinho
+                        int qntEliminada = stoi(carrinho[i][2]);                   // Quantidade que tinha sido adicionado ao carrinho
+                        int qntEstoqueAtual = stoi(produto[p][2]);                 // Quantidade no stock
+                        produto[p][2] = to_string(qntEstoqueAtual + qntEliminada); // Soma do stock + quantidade eliminada do carrinho
                         break;
                     }
                 }
@@ -472,7 +482,7 @@ void eliminarCarrinho(string** carrinho)
                 {
                     for (int k = 0; k < 6; k++)
                     {
-                        carrinho[j][k] = carrinho[j + 1][k]; // vai colocar a linha vazia em ultimo
+                        carrinho[j][k] = carrinho[j + 1][k]; // Vai colocar a linha vazia em ultimo
                     }
                 }
                 for (int n = 0; n < 6; n++)
@@ -493,6 +503,7 @@ void eliminarCarrinho(string** carrinho)
             cout << RED 
                  << "Produto nao encontrado no carrinho.\n"
                  << RESET;
+            return;
         }
     }
 }
@@ -526,8 +537,7 @@ void adicionarCarrinho(string** carrinho)
                      << "Produto: " << produto[i][1] << endl;
                 cout << "Quantidade disponivel: " << produto[i][2] << endl;
 
-                do
-                {
+            
                     cout << "Digite quantidade desejada: ";
                     while (!(cin >> quantidade) || quantidade <= 0)
                     {
@@ -541,7 +551,6 @@ void adicionarCarrinho(string** carrinho)
                         cout << "Quantidade invalida ou insuficiente no estoque! Tente novamente.\n";
                         continue;
                     }
-                } while (quantidade > stockAtual);
 
                 double precoCusto = stod(produto[i][3]);
                 double precoVenda = precoCusto * 1.30;
@@ -663,7 +672,7 @@ void processarCheckout(string** carrinho)
                         {
                             int stockAtual = stoi(produto[j][2]);
 
-                            produto[j][2] = to_string(stockAtual + qntCarrinho); // devolver a quantidade do carrinho ao stock
+                            produto[j][2] = to_string(stockAtual + qntCarrinho); // Devolver a quantidade do carrinho ao stock
                             break;
                         }
                     }
@@ -780,14 +789,14 @@ void modificarPreco()
 
                 while (!(cin >> novoPrecoT) || novoPrecoT < 0)
                 {
-                    cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
-                    cout << "Preco: ";
-                    cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
-                    cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
+                    cout << RED << endl << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n" << RESET;
+                    cout << endl << "Preco: ";
+                    cin.clear();            // Limpa o erro para permitir uma nova entrada
+                    cin.ignore(1000, '\n'); // Ignora até 1000 caracteres ou até o ENTER, limpando o buffer
                 }
 
-                ostringstream novoFormatado;                             // output string stream é uma variavel de uma string que me deixa formatar dados como numeros e converter para string
-                novoFormatado << fixed << setprecision(2) << novoPrecoT; // vai formatar o preco para ter 2 casas decimais
+                ostringstream novoFormatado;                             // Permite formatar números e convertê-los para string
+                novoFormatado << fixed << setprecision(2) << novoPrecoT; // Formata o preço com 2 casas decimais
                 produto[i][3] = novoFormatado.str();
             }
         }
@@ -798,7 +807,9 @@ void modificarPreco()
                  << RESET;
             break;
         }
-
+        system("CLS");
+        cout << GREEN << "Preco modificado." << RESET;
+        Sleep(2000);
         cout << endl
              << "Deseja modificar mais algum preco? (sim/nao)\n";
         cin >> continuar;
@@ -808,7 +819,7 @@ void modificarPreco()
     } while (continuar == "sim");
 
     cout << "|=============| ";
-    cout << "Atualizacao de precos "; // para mostrar os novos precos.
+    cout << "Atualizacao de precos "; 
     cout << " |==============|\n";
     produtosDisponiveis();
 }
@@ -891,7 +902,7 @@ void menu(string** carrinho)
             cin.ignore();
             cin.get(); // Espera o utilizador pressionar Enter
         }
-    } while (opcao != 7); // repete o menu até sair do programa
+    } while (opcao != 7); // Repete o menu até sair do programa
 }
 
 int main()
