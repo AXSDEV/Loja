@@ -580,7 +580,7 @@ void adicionarCarrinho(string** carrinho)
                  << RESET;
         }
 
-        cout << "Deseja adicionar outro produto? (sim/nao): ";
+        cout << "Deseja escolher outro produto? (sim/nao): ";
         cin >> continuar;
 
         continuar = toLower(continuar);
