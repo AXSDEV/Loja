@@ -869,9 +869,9 @@ void menu(string** carrinho)
     {
         system("CLS"); // Limpa a tela
         cout << endl
-             << "|=============| ";
-        cout << "Papelaria Note & Book";
-        cout << " |==============|\n";
+             <<BRIGHT_YELLOW << "|=============| "
+             << "Papelaria Note & Book"
+             << " |==============|\n" << RESET;
         cout << endl;
         cout << "[1] Produtos Disponiveis\n";
         cout << "[2] Carrinho\n";
