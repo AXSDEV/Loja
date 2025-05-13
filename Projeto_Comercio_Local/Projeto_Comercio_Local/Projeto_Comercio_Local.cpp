@@ -2,7 +2,7 @@
 #include <iomanip>   // para usar manipuladores de entrada e saida para controlar a formatação dos dados
 #include <string>    // para usar strings
 #include <ctime>     // para adicionar horas e datas (talao)
-#include <sstream>   // para poder usar setprecision em strings || deixa-me usar manipulador de strings
+#include <sstream>   // para poder usar setprecision em strings || deixa-me usar manipulador de strings || ostringstream é uma classe desta biblioteca
 #include <windows.h> // necessario para usar sleep
 #include <algorithm> // necessario para transform
 #include <cctype>    // necessario para tolower
@@ -220,7 +220,7 @@ void adicionarProduto()
             // Repete até o utilizador inserir um numero acima de 0
             while (!(cin >> precoT) || precoT < 0)
             {
-                cout << "Atencao, apenas pode inserir numeros e tem de ser maior que 0.\n";
+                cout << "Atencao, apenas pode inserir numeros e o valor tem de ser maior que 0.\n";
                 cout << "Preco: ";
                 cin.clear();            // para conseguir introduzir uma nova entrada || vai limpar o erro
                 cin.ignore(1000, '\n'); // 1000 significa o numero de caracteres que vao ser ignorados. O '\n' é para dizer apenas até o ENTER, ou seja, se eu colocar "abc" e der enter vai dar erro porque nao é numero e ele vai ignorar "abc".
