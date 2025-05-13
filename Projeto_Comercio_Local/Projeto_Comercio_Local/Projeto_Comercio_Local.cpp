@@ -47,7 +47,7 @@ bool login()
 
     cout << "====== LOGIN ADMIN ======";
     cout << "\n Utilizador: ";
-    getline(cin, utilizador); // Para caso alguem escreva por exemplo admin arroz nao consiga entrar, sem o getline ele apesar de estar escrito admin arroz o buffer iria apenas ler admin e iria conseguir efeturar login
+    getline(cin, utilizador); // Para caso alguem escreva por exemplo admin arroz nao consiga entrar, sem o getline ele apesar de estar escrito admin arroz o buffer iria apenas ler admin e iria conseguir efetuar login
     cout << "\n Palavra-Passe: ";
 
     // Ler a senha sem mostrá-la
