@@ -11,9 +11,13 @@
 #define RESET "\033[0m"  // Define a cor de texto para padrão
 #define RED "\033[31m"   // Define a cor de texto para vermelho
 #define GREEN "\033[32m" // Define a cor de texto para verde
+#define BRIGHT_YELLOW  "\033[93m" // Define a cor de texto amarelo brilhante
 // ASCII é um padrão de codificação de caracteres
 // ANSI é para códigos especiais que controlam a aparência do texto no terminal.
 using namespace std;
+
+
+
 
 int totalProdutos = 3;
 int colunas = 4; // ID, Nome, Quantidade, Preco
@@ -39,6 +43,7 @@ void mostrarCarrinho(string** carrinho);
 void modificarPreco(double novoPrecoT, string id);
 void printCarrinho(string** carrinho, double total);
 void limparCarrinho(string** carrinho);
+void asciiart();
 
 bool login()
 {
@@ -73,6 +78,7 @@ bool login()
         cout << GREEN 
              << "Bem-Vindo!" 
              << RESET;
+        asciiart();
         Sleep(3000);
 
         return true;
@@ -81,6 +87,37 @@ bool login()
          << "\nAs credenciais sao invalidas!\n"
          << RESET;
     return false;
+}
+
+void asciiart() {
+
+    // R(...) é uma raw string (texto puro), útil para desenhar ASCII sem escapar caracteres   
+    cout << BRIGHT_YELLOW << endl << R"(
+.------------------------------------------------------------------------------------------.
+|                       ___           ___           ___           ___                      |
+|                      /\__\         /\  \         /\  \         /\  \                     |
+|                     /::|  |       /::\  \        \:\  \       /::\  \                    |
+|                    /:|:|  |      /:/\:\  \        \:\  \     /:/\:\  \                   |
+|                   /:/|:|  |__   /:/  \:\  \       /::\  \   /::\~\:\  \                  |
+|                  /:/ |:| /\__\ /:/__/ \:\__\     /:/\:\__\ /:/\:\ \:\__\                 |
+|                  \/__|:|/:/  / \:\  \ /:/  /    /:/  \/__/ \:\~\:\ \/__/                 |
+|                      |:/:/  /   \:\  /:/  /    /:/  /       \:\ \:\__\                   |
+|                      |::/  /     \:\/:/  /     \/__/         \:\ \/__/                   |
+|                      /:/  /       \::/  /                     \:\__\                     |
+|                      \/__/         \/__/                       \/__/                     |
+|                       ___           ___           ___           ___                      |
+|                      /\  \         /\  \         /\  \         /\__\                     |
+|                     /::\  \       /::\  \       /::\  \       /:/  /                     |
+|                    /:/\:\  \     /:/\:\  \     /:/\:\  \     /:/__/                      |
+|                   /::\~\:\__\   /:/  \:\  \   /:/  \:\  \   /::\__\____                  |
+|                  /:/\:\ \:|__| /:/__/ \:\__\ /:/__/ \:\__\ /:/\:::::\__\                 |
+|                  \:\~\:\/:/  / \:\  \ /:/  / \:\  \ /:/  / \/_|:|~~|~                    |
+|                   \:\ \::/  /   \:\  /:/  /   \:\  /:/  /     |:|  |                     |
+|                    \:\/:/  /     \:\/:/  /     \:\/:/  /      |:|  |                     |
+|                     \::/__/       \::/  /       \::/  /       |:|  |                     |
+|                      ~~            \/__/         \/__/         \|__|                     |
+'------------------------------------------------------------------------------------------'
+    )" << endl << RESET;
 }
 
 void inicializarProdutos()
@@ -808,7 +845,7 @@ void modificarPreco()
             break;
         }
         system("CLS");
-        cout << GREEN << "Preco modificado." << RESET;
+        cout << GREEN << "Preco modificado com sucesso." << RESET;
         Sleep(2000);
         cout << endl
              << "Deseja modificar mais algum preco? (sim/nao)\n";
