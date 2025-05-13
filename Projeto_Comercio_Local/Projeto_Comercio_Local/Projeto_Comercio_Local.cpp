@@ -71,7 +71,7 @@ bool login()
     {
         system("CLS");
         cout << GREEN << "Bem-Vindo!" << RESET;
-        Sleep(3000);
+        Sleep(3000); // vai pausar o cout acima no terminal durante 3 segundos
 
         return true;
     }
@@ -239,7 +239,7 @@ void adicionarProduto()
         cout << GREEN << endl
              << "Produto adicionado.\n"
              << RESET;
-        Sleep(2000);
+        Sleep(2000); // vai pausar o cout acima no terminal durante 2 segundos
     }
     // Se adicionar mais que 1
     if (nProdAdicionar > 1)
@@ -247,7 +247,7 @@ void adicionarProduto()
         cout << GREEN << endl
              << "Produtos adicionados.\n"
              << RESET;
-        Sleep(2000);
+        Sleep(2000); // vai pausar o cout acima no terminal durante 2 segundos
     }
     // Imprime autalizacao de estoque
     system("CLS");
@@ -300,9 +300,9 @@ void eliminarProduto()
                 totalProdutos--; // Elimina a ultima linha que se encontra vazia
                 system("CLS");
                 cout << RED
-                     << "Produto eliminado. \n"
+                     << "Produto eliminado. \n" 
                      << RESET << endl;
-                Sleep(2000);
+                Sleep(2000); // vai pausar o cout acima no terminal durante 2 segundos
                 encontrado = true;
                 break;
             }
